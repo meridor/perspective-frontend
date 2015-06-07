@@ -1,0 +1,26 @@
+{
+  "name": "perspective-frontend",
+  "version": "1.0.0",
+  "dependencies": {
+    "backbone": "~1.2.0",
+    "es6-module-loader": "~0.4.2"
+  },
+  "authors": [
+    "Ivan Krutov <vania-pooh@vania-pooh.com>"
+  ],
+  "description": "Perspective dashboard frontend",
+  "keywords": [
+    "perspective",
+    "cloud",
+    "dashboard"
+  ],
+  "license": "Apache Software License 2.0",
+  "homepage": "http://meridor.org/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
