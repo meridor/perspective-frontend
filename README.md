@@ -5,4 +5,5 @@ This repository contains source code of Perspective cloud frontend.
 ```bash
 $ npm install
 $ gulp
+$ gulp watch # To view results in browser
 ```
