@@ -35,6 +35,11 @@ gulp.task('styles', function() {
         .pipe(reload({ stream: true }));
 });
 
+gulp.task('fonts', function() {
+    gulp.src('./node_modules/bootstrap/fonts/**/*.{ttf,woff,woff2,eof,svg}')
+        .pipe(gulp.dest('./dist/fonts'));
+});
+
 var bundler = _.memoize(function(watch) {
     var options = {debug: true};
 
@@ -101,6 +106,7 @@ gulp.task('build', [
     'clean',
     'html',
     'styles',
+    'fonts',
     'scripts',
     'test'
 ]);
