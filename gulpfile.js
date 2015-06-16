@@ -11,12 +11,18 @@ var buffer = require('vinyl-buffer');
 var _ = require('lodash');
 var concat = require('gulp-concat');
 
+//Templates
+var handlebars = require('gulp-handlebars');
+var wrap = require('gulp-wrap');
+var declare = require('gulp-declare');
+
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
 gulp.task('clean', function(cb) {
     del([
-        'app/tmp'
+        'app/tmp',
+        'dist/*'
     ], cb);
 });
 
@@ -26,7 +32,12 @@ gulp.task('html', function() {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('styles', function() {
+gulp.task('fonts', function() {
+    gulp.src('./node_modules/bootstrap/fonts/**/*.{ttf,woff,woff2,eof,svg}')
+        .pipe(gulp.dest('./dist/fonts'));
+});
+
+gulp.task('styles', ['fonts'], function() {
     return gulp.src('src/main.less')
         .pipe($.less())
         .pipe($.autoprefixer())
@@ -35,9 +46,16 @@ gulp.task('styles', function() {
         .pipe(reload({ stream: true }));
 });
 
-gulp.task('fonts', function() {
-    gulp.src('./node_modules/bootstrap/fonts/**/*.{ttf,woff,woff2,eof,svg}')
-        .pipe(gulp.dest('./dist/fonts'));
+gulp.task('templates', function() {
+    gulp.src('./src/templates/**/*.hbs')
+        .pipe(handlebars())
+        .pipe(wrap('Handlebars.template(<%= contents %>)'))
+        .pipe(declare({
+            namespace: 'Perspective.templates',
+            noRedeclare: true
+        }))
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest('dist'));
 });
 
 var bundler = _.memoize(function(watch) {
@@ -76,11 +94,11 @@ var bundle = function (cb, watch) {
         .pipe(gulp.dest('dist'))
         .on('end', cb)
         .pipe(reload({ stream: true }));
-}
+};
 
 var watchifyEnabled = false;
 
-gulp.task('scripts', function(cb) {
+gulp.task('scripts', ['templates'], function(cb) {
     process.env.BROWSERIFYSWAP_ENV = 'dist';
     bundle(cb, watchifyEnabled);
 });
@@ -106,7 +124,6 @@ gulp.task('build', [
     'clean',
     'html',
     'styles',
-    'fonts',
     'scripts',
     'test'
 ]);
@@ -129,6 +146,7 @@ gulp.task('watch', ['build'], function () {
         gulp.start('scripts');
         gulp.start('test');
     });
+    gulp.watch('src/templates/**/*.hbs', ['scripts']);
     gulp.watch('test/**/*.js', ['test']);
     gulp.watch(['src/main.less', 'src/**/*.less'], ['styles']);
     gulp.watch(['src/*.html'], ['html']);
