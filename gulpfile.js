@@ -1,28 +1,13 @@
 var gulp = require('gulp');
-var babelify = require('babelify');
-var uglify = require('gulp-uglify'); //TODO: use this somehow
 var $ = require('gulp-load-plugins')();
-var browserify = require('browserify');
 var del = require('del');
-var watchify = require('watchify');
-var source = require('vinyl-source-stream');
 var stylish = require('jshint-stylish');
-var buffer = require('vinyl-buffer');
-var _ = require('lodash');
-var concat = require('gulp-concat');
-
-//Templates
-var handlebars = require('gulp-handlebars');
-var wrap = require('gulp-wrap');
-var declare = require('gulp-declare');
-
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
+var webpack = require('webpack');
+var minifyCss = require('gulp-minify-css');
 
 gulp.task('clean', function(cb) {
     del([
-        'app/tmp',
-        'dist/*'
+        'dist/**/*.*'
     ], cb);
 });
 
@@ -42,65 +27,38 @@ gulp.task('styles', ['fonts'], function() {
         .pipe($.less())
         .pipe($.autoprefixer())
         .pipe($.rename('style.css'))
-        .pipe(gulp.dest('dist'))
-        .pipe(reload({ stream: true }));
-});
-
-gulp.task('templates', function() {
-    gulp.src('./src/templates/**/*.hbs')
-        .pipe(handlebars())
-        .pipe(wrap('Handlebars.template(<%= contents %>)'))
-        .pipe(declare({
-            namespace: 'Perspective.templates',
-            noRedeclare: true
-        }))
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest('dist'));
-});
-
-var bundler = _.memoize(function(watch) {
-    var options = {debug: true};
-
-    if (watch) {
-        _.extend(options, watchify.args);
-    }
-
-    var b = browserify('./src/main.js', options)
-        .transform(babelify);
-
-    if (watch) {
-        b = watchify(b);
-    }
-
-    return b;
-});
-
-var handleErrors = function() {
-    var args = Array.prototype.slice.call(arguments);
-    delete args[0].stream;
-    $.util.log.apply(null, args);
-    this.emit('end');
-};
-
-var bundle = function (cb, watch) {
-    return bundler(watch)
-        .bundle()
-        .on('error', handleErrors)
-        .pipe(source('app.js'))
-        .pipe(buffer())
         .pipe($.sourcemaps.init({ loadMaps: true }))
-        .pipe(concat('app.js'))
+        .pipe(minifyCss())
         .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('dist'))
-        .on('end', cb)
-        .pipe(reload({ stream: true }));
-};
+        .pipe(gulp.dest('dist'));
+        //.pipe(reload({ stream: true }));
+});
 
-var watchifyEnabled = false;
-
-gulp.task('scripts', ['templates'], function(cb) {
-    process.env.BROWSERIFYSWAP_ENV = 'dist';
-    bundle(cb, watchifyEnabled);
+gulp.task('scripts', function(cb) {
+    webpack({
+        entry: './src/main.js',
+        output: {
+            path: 'dist',
+            filename: "app.js"
+        },
+        module: {
+            loaders: [
+                {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+                { test: /\.hbs$/, exclude: /node_modules/, loader: 'handlebars-loader' }
+            ]
+        },
+        plugins: [
+            new webpack.optimize.UglifyJsPlugin({minimize: true})
+        ],
+        devtool: '#source-map'
+    }, function (err, stats) {
+        if (err) {
+            cb(new $.util.PluginError('webpack', err));
+            return;
+        }
+        $.util.log('[webpack]', stats.toString({}));
+        cb();
+    });
 });
 
 gulp.task('jshint', function() {
@@ -132,24 +90,5 @@ gulp.task('test', [
     'jshint',
     'mocha'
 ]);
-
-gulp.task('watch', ['build'], function () {
-    watchifyEnabled = true;
-    browserSync({
-        server: {
-            baseDir: 'dist'
-        }
-    });
-
-    reporter = 'dot';
-    bundler(true).on('update', function() {
-        gulp.start('scripts');
-        gulp.start('test');
-    });
-    gulp.watch('src/templates/**/*.hbs', ['scripts']);
-    gulp.watch('test/**/*.js', ['test']);
-    gulp.watch(['src/main.less', 'src/**/*.less'], ['styles']);
-    gulp.watch(['src/*.html'], ['html']);
-});
 
 gulp.task('default', ['build']);
