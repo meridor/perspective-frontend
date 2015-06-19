@@ -22,7 +22,12 @@ gulp.task('fonts', function() {
         .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('styles', ['fonts'], function() {
+gulp.task('images', function() {
+    gulp.src('./src/img/**/*.*')
+        .pipe(gulp.dest('./dist/img'));
+});
+
+gulp.task('styles', ['fonts', 'images'], function() {
     return gulp.src('src/main.less')
         .pipe($.less())
         .pipe($.autoprefixer())
@@ -30,8 +35,7 @@ gulp.task('styles', ['fonts'], function() {
         .pipe($.sourcemaps.init({ loadMaps: true }))
         .pipe(minifyCss())
         .pipe($.sourcemaps.write('.'))
-        .pipe(gulp.dest('dist'));
-        //.pipe(reload({ stream: true }));
+        .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('scripts', function(cb) {
@@ -48,7 +52,11 @@ gulp.task('scripts', function(cb) {
             ]
         },
         plugins: [
-            new webpack.optimize.UglifyJsPlugin({minimize: true})
+            new webpack.optimize.UglifyJsPlugin({minimize: true}),
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jQuery: "jquery"
+            })
         ],
         devtool: '#source-map'
     }, function (err, stats) {
