@@ -8,7 +8,7 @@ $(() => {
     let app = new Application();
     
     app.on('start', function() {
-        app.rootLayout = new MainLayout({el: '.application'});
+        app.rootLayout = new MainLayout({el: '#application'});
         app.rootLayout.render();
         Backbone.history.start();
     });

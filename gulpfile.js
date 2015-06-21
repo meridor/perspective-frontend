@@ -48,7 +48,16 @@ gulp.task('scripts', function(cb) {
         module: {
             loaders: [
                 {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
-                { test: /\.hbs$/, exclude: /node_modules/, loader: 'handlebars-loader' }
+                {
+                    test: /\.hbs$/,
+                    exclude: /node_modules/,
+                    loader: 'handlebars-loader'//,
+                    //query: {
+                    //    helperDirs: [
+                    //        __dirname + "/templates/helpers"
+                    //    ]
+                    //}
+                }
             ]
         },
         plugins: [
