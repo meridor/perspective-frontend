@@ -18,7 +18,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('fonts', function() {
-    gulp.src('./node_modules/bootstrap/fonts/**/*.{ttf,woff,woff2,eof,svg}')
+    gulp.src('./node_modules/font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}')
         .pipe(gulp.dest('./dist/fonts'));
 });
 
@@ -51,12 +51,7 @@ gulp.task('scripts', function(cb) {
                 {
                     test: /\.hbs$/,
                     exclude: /node_modules/,
-                    loader: 'handlebars-loader'//,
-                    //query: {
-                    //    helperDirs: [
-                    //        __dirname + "/templates/helpers"
-                    //    ]
-                    //}
+                    loader: 'handlebars-loader'
                 }
             ]
         },
