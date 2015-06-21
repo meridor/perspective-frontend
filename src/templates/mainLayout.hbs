@@ -7,13 +7,18 @@
             </div>
             <div class="collapse navbar-collapse">
                 {{> helpers/clouds_dropdown clouds}}
+                <button type="button" class="btn btn-default navbar-btn"><span class="fa fa-plus"></span> Add</button>
+                <button type="button" class="btn btn-default navbar-btn"><span class="fa fa-sliders"></span> Modify</button>
+                <button type="button" class="btn btn-default navbar-btn"><span class="fa fa-trash"></span> Delete</button>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span> {{username}} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Quotas</a></li>
+                            <li><a href="#"><span class="fa fa-key"></span> Access</a></li>
+                            <li><a href="#"><span class="fa fa-tachometer"></span> Quotas</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="https://github.com/meridor/perspective-frontend/wiki"><span class="fa fa-question-circle"></span> Help</a></li>
+                            <li><a href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
