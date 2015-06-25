@@ -10,7 +10,9 @@ $(() => {
     app.on('start', function() {
         app.rootLayout = new MainLayout({el: '#application'});
         app.rootLayout.render();
-        Backbone.history.start();
+        if (Backbone.history) {
+            Backbone.history.start();
+        }
     });
     
     app.start();
