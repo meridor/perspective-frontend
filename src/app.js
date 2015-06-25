@@ -1,4 +1,6 @@
 import Marionette from 'backbone.marionette';
+import Backbone from 'backbone';
+import MainLayout from './mainLayout';
 
 class MainController {
 
@@ -8,13 +10,15 @@ class MainController {
 
 }
 
+let mainController = new MainController();
+
 class Router extends Marionette.AppRouter {
     
     constructor() {
-        let config = {};
-        config.appRoutes = Router.getRoutes();
-        config.controller = new MainController();
-        super(config);
+        super({
+            appRoutes: Router.getRoutes(),
+            controller: mainController
+        });
     }
     
     static getRoutes() {
@@ -25,14 +29,37 @@ class Router extends Marionette.AppRouter {
 
 }
 
-export default class Application extends Marionette.Application {
+export default class App extends Marionette.Application {
 
     constructor() {
         super();
         this.addInitializer(
             () => new Router()
         );
+        this.initEventHandlers();
+    }
+
+    initEventHandlers() {
+        this.on('instances:list', () => mainController.listInstances());
+    }
+    
+    static renderMainLayout() {
+        new MainLayout().render();
+    }
+    
+    static getCurrentRoute() {
+        return Backbone.history.fragment;
+    }
+    
+    static navigate(route) {
+        Backbone.history.navigate(route);
+    }
+    
+    static startHistory(cb) {
+        if (Backbone.history) {
+            Backbone.history.start();
+            cb();
+        }
     }
     
 }
-

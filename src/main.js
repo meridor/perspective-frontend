@@ -1,18 +1,18 @@
-import Application from './app';
-import MainLayout from './mainLayout';
 import $ from 'jquery';
-import Backbone from 'backbone';
+import App from './app';
+import 'bootstrap';
 
 $(() => {
-    'use strict';
-    let app = new Application();
+    let app = new App();
     
-    app.on('start', function() {
-        app.rootLayout = new MainLayout({el: '#application'});
-        app.rootLayout.render();
-        if (Backbone.history) {
-            Backbone.history.start();
-        }
+    app.on('start', () => {
+        App.renderMainLayout();
+        App.startHistory(() => {
+            if (!App.getCurrentRoute()) {
+                App.navigate('listInstances');
+                app.trigger('instances:list');
+            }
+        });
     });
     
     app.start();

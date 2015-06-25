@@ -1,10 +1,10 @@
 import Marionette from 'backbone.marionette';
 import mainLayout from './templates/mainLayout.hbs';
-import 'bootstrap';
 
 export default class MainLayout extends Marionette.LayoutView {
-    constructor(...config) {
-        super(...config);
+    
+    constructor() {
+        super({el: '#application'});
         let clouds = [
             {
                 name: 'Openstack',
