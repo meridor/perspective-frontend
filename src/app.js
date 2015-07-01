@@ -1,11 +1,11 @@
 import Marionette from 'backbone.marionette';
 import Backbone from 'backbone';
-import MainLayout from './mainLayout';
+import MainLayout from './views/mainLayout';
 
 class MainController {
 
-    listInstances() {
-        window.alert('List instances!');
+    list() {
+        //window.alert('List instances, volumes and so on');
     }
 
 }
@@ -15,7 +15,7 @@ let mainController = new MainController();
 class Router extends Marionette.AppRouter {
     
     constructor() {
-        super({
+        super({ 
             appRoutes: Router.getRoutes(),
             controller: mainController
         });
@@ -23,7 +23,7 @@ class Router extends Marionette.AppRouter {
     
     static getRoutes() {
         return {
-            'listInstances': 'listInstances'
+            'list': 'list'
         };
     }
 
@@ -39,8 +39,13 @@ export default class App extends Marionette.Application {
         this.initEventHandlers();
     }
 
+    go(route, event = route) {
+        App.navigate(route);
+        this.trigger(event);
+    }
+    
     initEventHandlers() {
-        this.on('instances:list', () => mainController.listInstances());
+        this.on('list', () => mainController.list());
     }
     
     static renderMainLayout() {
