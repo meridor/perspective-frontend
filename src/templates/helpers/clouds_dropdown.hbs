@@ -1,19 +1,21 @@
-<ul class="nav navbar-nav">
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-cloud"></span> Clouds <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            {{#each this}}
-                <li class="dropdown-header">{{name}}</li>
-                {{#each projects}}
-                    {{#each regions}}
-                        {{#if enabled}}
-                            <li><a href="#"><span class="fa fa-check-square-o"></span> {{../../name}} - {{name}}</a></li>
-                        {{else}}
-                            <li><a href="#"><span class="fa fa-square-o"></span> {{../../name}} - {{name}}</a></li>
-                        {{/if}}
-                    {{/each}}
+<li class="dropdown">
+    <button type="button" id="clouds" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <span class="fa fa-cloud"></span>
+        Clouds
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        {{#each this}}
+            <li class="dropdown-header">{{name}}</li>
+            {{#each projects}}
+                {{#each regions}}
+                    {{#if enabled}}
+                        <li><a href="#"><span class="fa fa-check-square-o"></span> {{../../name}} - {{name}}</a></li>
+                    {{else}}
+                        <li><a href="#"><span class="fa fa-square-o"></span> {{../../name}} - {{name}}</a></li>
+                    {{/if}}
                 {{/each}}
             {{/each}}
-        </ul>
-    </li>
-</ul>
+        {{/each}}
+    </ul>
+</li>

@@ -39,7 +39,6 @@ export default class Header extends Marionette.LayoutView {
     static getEvents() {
         return {
             'click button#add': 'onAddClicked',
-            'click button#modify': 'onModifyClicked',
             'click button#delete': 'onDeleteClicked',
             'click li#access': 'onAccessClicked',
             'click li#quotas': 'onQuotasClicked',
@@ -49,10 +48,6 @@ export default class Header extends Marionette.LayoutView {
 
     onAddClicked() {
         window.alert('Add button clicked');
-    }
-
-    onModifyClicked() {
-        window.alert('Modify button clicked');
     }
 
     onDeleteClicked() {
