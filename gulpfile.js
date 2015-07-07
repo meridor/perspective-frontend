@@ -1,9 +1,11 @@
 var gulp = require('gulp');
+var gulpif = require('gulp-if');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var stylish = require('jshint-stylish');
 var webpack = require('webpack');
 var minifyCss = require('gulp-minify-css');
+var argv = require('yargs').argv;
 
 gulp.task('clean', function(cb) {
     del([
@@ -27,18 +29,32 @@ gulp.task('images', function() {
         .pipe(gulp.dest('./dist/img'));
 });
 
+var prepareForProduction = argv.production;
+
 gulp.task('styles', ['fonts', 'images'], function() {
     return gulp.src('src/main.less')
         .pipe($.less())
         .pipe($.autoprefixer())
         .pipe($.rename('style.css'))
         .pipe($.sourcemaps.init({ loadMaps: true }))
-        .pipe(minifyCss())
+        .pipe(gulpif(prepareForProduction, minifyCss()))
         .pipe($.sourcemaps.write('.'))
         .pipe(gulp.dest('dist/css'));
 });
 
+
 gulp.task('scripts', function(cb) {
+    var plugins = [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    ];
+    if (prepareForProduction) {
+        plugins.push(new webpack.optimize.UglifyJsPlugin({
+            minimize: true
+        }));
+    }
     webpack({
         entry: './src/main.js',
         output: {
@@ -55,13 +71,7 @@ gulp.task('scripts', function(cb) {
                 }
             ]
         },
-        plugins: [
-            new webpack.optimize.UglifyJsPlugin({minimize: true}),
-            new webpack.ProvidePlugin({
-                $: "jquery",
-                jQuery: "jquery"
-            })
-        ],
+        plugins: plugins,
         devtool: '#source-map'
     }, function (err, stats) {
         if (err) {
