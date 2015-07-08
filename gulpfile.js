@@ -46,8 +46,8 @@ gulp.task('styles', ['fonts', 'images'], function() {
 gulp.task('scripts', function(cb) {
     var plugins = [
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+            $: 'jquery',
+            jQuery: 'jquery'
         })
     ];
     if (prepareForProduction) {
@@ -59,7 +59,10 @@ gulp.task('scripts', function(cb) {
         entry: './src/main.js',
         output: {
             path: 'dist',
-            filename: "app.js"
+            filename: 'app.js'
+        },
+        resolve: {
+            extensions: ['', '.hbs', '.ts', '.webpack.js', '.web.js', '.js']
         },
         module: {
             loaders: [
@@ -68,6 +71,10 @@ gulp.task('scripts', function(cb) {
                     test: /\.hbs$/,
                     exclude: /node_modules/,
                     loader: 'handlebars-loader'
+                },
+                {
+                    test: /\.ts$/,
+                    loader: 'awesome-typescript-loader'
                 }
             ]
         },
