@@ -1,12 +1,20 @@
 # Perspective Frontend
 This repository contains source code of Perspective cloud frontend.
 
-## Building
+## Preparing for development
 ```bash
+$ npm install -g typescript
+$ npm install -g tsd
 $ npm install
+$ tsd install
+```
+
+## Building
+To build development version:
+```bash
 $ gulp
 ```
-To prepare scripts and styles for production usage:
+To pack scripts and styles for production usage:
 ```bash
 $ gulp --production
 ```
