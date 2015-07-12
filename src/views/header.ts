@@ -1,13 +1,10 @@
-import Marionette from 'backbone.marionette';
+import * as Marionette from 'backbone.marionette';
+import {Settings} from '../models/settings';
 import header from '../templates/header.hbs';
 
-export default class Header extends Marionette.LayoutView {
+export class Header extends Marionette.LayoutView<Settings> {
 
     constructor() {
-        super({
-            className: 'container-fluid'
-        });
-        this.delegateEvents(Header.getEvents());
         let clouds = [
             {
                 name: 'Openstack',
@@ -33,7 +30,11 @@ export default class Header extends Marionette.LayoutView {
                 ]
             }
         ];
-        this.template = header({username: 'vania-pooh', clouds: clouds});
+        super({
+            className: 'container-fluid',
+            template: header({username: 'vania-pooh', clouds: clouds})
+        });
+        this.delegateEvents(Header.getEvents());
     }
 
     static getEvents() {

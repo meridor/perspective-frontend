@@ -56,7 +56,7 @@ gulp.task('scripts', function(cb) {
         }));
     }
     webpack({
-        entry: './src/main.js',
+        entry: './src/main.ts',
         output: {
             path: 'dist',
             filename: 'app.js'
@@ -66,7 +66,6 @@ gulp.task('scripts', function(cb) {
         },
         module: {
             loaders: [
-                {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
                 {
                     test: /\.hbs$/,
                     exclude: /node_modules/,
@@ -74,7 +73,8 @@ gulp.task('scripts', function(cb) {
                 },
                 {
                     test: /\.ts$/,
-                    loader: 'awesome-typescript-loader'
+                    exclude: /node_modules/,
+                    loader: 'awesome-typescript-loader?compiler=ntypescript&emitRequireType=false&library=es6&module=commonjs'
                 }
             ]
         },

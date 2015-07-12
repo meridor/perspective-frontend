@@ -3,7 +3,6 @@ This repository contains source code of Perspective cloud frontend.
 
 ## Preparing for development
 ```bash
-$ npm install -g typescript
 $ npm install -g tsd
 $ npm install
 $ tsd install

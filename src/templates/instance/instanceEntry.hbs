@@ -1,0 +1,31 @@
+<tr>
+    <td>
+        <input type="checkbox" class="selected" {{#if selected}} checked {{/if}}/>
+    </td>
+    <td>
+        {{cloudType}}
+    </td>
+    <td title="{{id}}">
+        {{name}}
+    </td>
+    <td>
+        {{image.name}}
+    </td>
+    <td title="{{network.name}} {{network.cidr}}">
+        {{network.address}}
+    </td>
+    <td>
+        {{keyName}}
+    </td>
+    <td>
+        {{state}}
+    </td>
+    <td>
+        {{humanizedDuration lastModified}}
+    </td>
+    <td>
+        {{#if log }}
+            <a href="#">Log</a>
+        {{/if}}
+    </td>
+</tr>

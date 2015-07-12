@@ -4,18 +4,35 @@
   "ref": "master",
   "path": "typings",
   "bundle": "typings/tsd.d.ts",
+  "typescript": {
+    "definitions": [
+      "src/typings/templates.d.ts"
+    ]
+  },
   "installed": {
+    "bootstrap/bootstrap.d.ts": {
+      "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
+    },
+    "underscore/underscore.d.ts": {
+      "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
+    },
     "marionette/marionette.d.ts": {
       "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
     },
     "backbone/backbone.d.ts": {
       "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
     },
-    "jquery/jquery.d.ts": {
-      "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
+    "node/node.d.ts": {
+      "commit": "286c198898978cb6045076c3e47f823a02217b41"
     },
-    "underscore/underscore.d.ts": {
-      "commit": "304a25197990aeabf8e9fd030ad927ed011b9e83"
+    "moment/moment.d.ts": {
+      "commit": "a9c59f8166b4d7f1e8c4309a506987c2e6d78b5e"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "a9c59f8166b4d7f1e8c4309a506987c2e6d78b5e"
     }
   }
 }

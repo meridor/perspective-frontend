@@ -1,113 +1,9 @@
 <div>
-    <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="instancesListHeading">
-            <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-target="#instancesList" href="#instancesList" aria-expanded="true" aria-controls="instancesList">
-                    <span class="fa fa-server"></span> Instances (5)
-                </a>
-                <button id="instancesSettings" class="pull-right" title="Adjust instance groups"><span class="fa fa-cog"></span></button>
-            </h4>
-        </div>
-        <div id="instancesList" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="instancesListHeading">
-            <div class="panel-body">
-    
-                <div class="panel panel-default">
-                    <div class="panel-heading" role="tab" id="instancesRunningHeading">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-target="#instancesRunning" href="#instancesRunning" aria-expanded="true" aria-controls="instancesRunning">
-                                Running (3)
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="instancesRunning" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="instancesRunningHeading">
-                        <div class="panel-body">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <input class="selectAll" type="checkbox"/>
-                                    </th>
-                                    <th>Cloud</th>
-                                    <th>Name</th>
-                                    <th>Image</th>
-                                    <th>Network</th>
-                                    <th>Access</th>
-                                    <th>State</th>
-                                    <th>Last Modified</th>
-                                    <th>More</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="selected"/>
-                                    </td>
-                                    <td>
-                                        Openstack
-                                    </td>
-                                    <td>
-                                        instance1
-                                    </td>
-                                    <td>
-                                        my-cool-image
-                                    </td>
-                                    <td title="MYTESTNETS 122.3.114.101/25 2a0f:6b8:b010:5007::/64">
-                                        2a0f:6b8:b010:19::200
-                                    </td>
-                                    <td>
-                                        test-key
-                                    </td>
-                                    <td>
-                                        running
-                                    </td>
-                                    <td>
-                                        02.03.2014 09:22
-                                    </td>
-                                    <td>
-                                        <a href="#">Log</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" class="selected"/>
-                                    </td>
-                                    <td>
-                                        Docker
-                                    </td>
-                                    <td>
-                                        instance2
-                                    </td>
-                                    <td>
-                                        another-image
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                    <td>
-                                        running
-                                    </td>
-                                    <td>
-                                        04.06.2014 11:33
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-    
-                    </div>
-                </div>
-    
-            </div>
-        </div>
+    <div id="instancesSection" class="panel panel-default">
+        {{! Instances will be displayed here }}
     </div>
     
-    <div class="panel panel-default">
+    <div id="imagesSection" class="panel panel-default">
         <div class="panel-heading" role="tab" id="imagesListHeading">
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-target="#imagesList" href="#imagesList" aria-expanded="true" aria-controls="imagesList">
@@ -117,8 +13,8 @@
             </h4>
         </div>
         <div id="imagesList" class="panel-collapse collapse" role="tabpanel" aria-labelledby="imagesListHeading">
-            <div class="panel-body">
-                To be implemented...
+            <div id="imagesGroups" class="panel-body">
+                {{! Image groups go here }}
             </div>
         </div>
     </div>
