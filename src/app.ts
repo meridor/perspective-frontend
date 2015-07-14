@@ -1,8 +1,11 @@
 import * as Marionette from 'backbone.marionette';
 import * as Backbone from 'backbone';
-import {MainLayout} from './views/mainLayout';
+import {MainLayoutView} from './views/mainLayout';
 import {MainController} from './controllers/main';
 import {Event as event} from './misc/events';
+import {Logger} from './misc/logger';
+
+let logger = new Logger('app');
 
 let mainController = new MainController();
 
@@ -28,7 +31,7 @@ export default class App extends Marionette.Application {
     
     private static _instance: App;
     
-    private _mainLayout: MainLayout;
+    private _mainLayoutView: MainLayoutView;
     
     constructor() {
         super();
@@ -36,7 +39,7 @@ export default class App extends Marionette.Application {
             () => new Router()
         );
         this.initEventHandlers();
-        this.mainLayout = new MainLayout();
+        this.mainLayoutView = new MainLayoutView();
         App._instance = this;
     }
 
@@ -50,26 +53,34 @@ export default class App extends Marionette.Application {
     }
     
     renderMainLayout() {
-        this.mainLayout.render();
+        logger.debug('Rending main application layout');
+        this.mainLayoutView.render();
     }
     
     static get instance() {
         return App._instance;
     }
 
-    get mainLayout() {
-        return this._mainLayout;
+    get mainLayoutView() {
+        return this._mainLayoutView;
     }
 
-    set mainLayout(value) {
-        this._mainLayout = value;
+    set mainLayoutView(value) {
+        this._mainLayoutView = value;
     }
 
     static get currentRoute() {
-        return Backbone.history.getFragment;
+        return Backbone.history.getFragment();
     }
-    
+
+
+    trigger(eventName:string, ...args):any {
+        logger.debug(`Firing event ${eventName} with arguments (${args})`);
+        return super.trigger(eventName, args);
+    }
+
     static navigate(route) {
+        logger.debug(`Navigating to route ${route}`);
         Backbone.history.navigate(route);
     }
     

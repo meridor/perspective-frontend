@@ -1,13 +1,15 @@
 import * as Marionette from 'backbone.marionette';
 import {Settings} from '../models/settings';
-import {Header} from './header';
-import {MainArea} from './mainArea';
+import {HeaderView} from './header';
+import {MainAreaView} from './mainArea';
 
-export class MainLayout extends Marionette.LayoutView<Settings> {
+export class MainLayoutView extends Marionette.LayoutView<Settings> {
     
-    private _header: Header;
+    private _header: Marionette.Region;
+    private _headerView: HeaderView;
     
-    private _mainArea: MainArea;
+    private _mainArea: Marionette.Region;
+    private _mainAreaView: MainAreaView;
     
     constructor() {
         let mainLayout = require('../templates/mainLayout.hbs');
@@ -19,21 +21,36 @@ export class MainLayout extends Marionette.LayoutView<Settings> {
             header: '#header',
             mainArea: '#mainArea'
         });
-        this._mainArea = new MainArea();
-        this._header = new Header();
+        this._mainAreaView = new MainAreaView();
+        this._headerView = new HeaderView();
     }
     
     onRender() {
-        this.getRegionManager().getRegion('header').show(this.header);
-        this.getRegionManager().getRegion('mainArea').show(this.mainArea);
+        this.header.show(this.headerView);
+        this.mainArea.show(this.mainAreaView);
     }
-    
-    get header() {
+
+    public get header():Marionette.Region {
         return this._header;
     }
-    
-    get mainArea() {
+
+    public set header(value:Marionette.Region) {
+        this._header = value;
+    }
+
+    public get mainArea():Marionette.Region {
         return this._mainArea;
     }
-    
+
+    public set mainArea(value:Marionette.Region) {
+        this._mainArea = value;
+    }
+
+    public get headerView():HeaderView {
+        return this._headerView;
+    }
+
+    public get mainAreaView():MainAreaView {
+        return this._mainAreaView;
+    }
 }

@@ -1,9 +1,13 @@
 import * as Marionette from 'backbone.marionette';
 import {Instance, Instances, InstancesGroup, InstancesSection} from '../models/instance';
+import {Logger} from '../misc/logger';
+
+let logger = new Logger('main');
 
 class InstanceView extends Marionette.ItemView<Instance> {
     
     constructor(instance: Instance) {
+        logger.debug(`Rendering instance ${instance}`);
         let instanceEntry = require('../templates/instance/instanceEntry.hbs');
         super({
             tagName: 'tr',
@@ -18,7 +22,8 @@ class InstancesTableView extends Marionette.CompositeView<Instance> {
     constructor(instances: Instances) {
         let instancesTable = require('../templates/instance/instancesTable.hbs');
         super({
-            className: 'panel panel-default',
+            tagName: 'table',
+            className: 'table table-hover',
             collection: instances,
             childView: InstanceView,
             childViewContainer: 'tbody',
@@ -34,11 +39,14 @@ class InstancesTableView extends Marionette.CompositeView<Instance> {
 
 class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 
-    private _instancesTable: InstancesTableView;
+    private _instances: Marionette.Region;
+    private _instancesTableView: InstancesTableView;
     
     constructor(group: InstancesGroup) {
+        logger.debug(`Rendering instances group "${group.name}"`);
         let instancesGroup = require('../templates/instance/instancesGroup.hbs');
         super({
+            className: 'panel panel-default',
             template: instancesGroup({
                 id: group.id,
                 name: group.name,
@@ -48,25 +56,33 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
         this.addRegions({
             instances: '.panel-body'
         });
-        this._instancesTable = new InstancesTableView(group.instances);
+        this._instancesTableView = new InstancesTableView(group.instances);
     }
-
 
     onRender() {
-        super.onRender();
-        this.getRegionManager().getRegion('instances').show(this.instancesTable);
+        this.instances.show(this.instancesTableView);
+    }
+    
+    public get instances():Marionette.Region {
+        return this._instances;
     }
 
-    public get instancesTable():InstancesTableView {
-        return this._instancesTable;
+    public set instances(value:Marionette.Region) {
+        this._instances = value;
+    }
+
+    public get instancesTableView():InstancesTableView {
+        return this._instancesTableView;
     }
 }
 
 export class InstancesSectionView extends Marionette.CompositeView<InstancesGroup> {
 
     constructor(section: InstancesSection) {
+        logger.debug('Rendering instances section');
         let instancesSection = require('../templates/instance/instancesSection.hbs');
         super({
+            className: 'panel panel-default',
             collection: section.groups,
             childView: InstancesTableView,
             childViewContainer: '#instancesGroups',

@@ -1,7 +1,15 @@
 import * as Backbone from 'backbone';
+import {Image} from './image';
 
 export class Instance extends Backbone.Model {
+    id: string;
+    name: string;
+    image: Image;
+    keyName: string;
     
+    toString():string {
+        return `Instance(id=${this.id}, name=${this.name}, keyName=${this.keyName}})`;
+    }
 }
 
 export class Instances extends Backbone.Collection<Instance> {
@@ -38,9 +46,10 @@ export class InstancesGroup extends Backbone.Model {
 
 class InstancesGroups extends Backbone.Collection<InstancesGroup> {
 
-    constructor(models: InstancesGroup[]){
-        super(models);
+    constructor(groups: InstancesGroup[]){
+        super(groups);
     }
+    
 }
 
 export class InstancesSection extends Backbone.Model {
@@ -49,7 +58,7 @@ export class InstancesSection extends Backbone.Model {
     
     private _groups: InstancesGroups;
     
-    constructor(instancesGroups: InstancesGroup[] = []) {
+    constructor(instancesGroups: InstancesGroup[]) {
         super(instancesGroups);
         this._count = instancesGroups.map(ig => ig.count).reduce(
             //Sum up length field of each group

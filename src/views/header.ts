@@ -1,7 +1,10 @@
 import * as Marionette from 'backbone.marionette';
 import {Settings} from '../models/settings';
+import {Logger} from '../misc/logger';
 
-export class Header extends Marionette.LayoutView<Settings> {
+let logger = new Logger('header');
+
+export class HeaderView extends Marionette.LayoutView<Settings> {
 
     constructor() {
         let clouds = [
@@ -34,7 +37,7 @@ export class Header extends Marionette.LayoutView<Settings> {
             className: 'container-fluid',
             template: header({username: 'vania-pooh', clouds: clouds})
         });
-        this.delegateEvents(Header.getEvents());
+        this.delegateEvents(HeaderView.getEvents());
     }
 
     static getEvents() {
@@ -48,25 +51,25 @@ export class Header extends Marionette.LayoutView<Settings> {
     }
 
     onAddClicked() {
-        window.alert('Add button clicked');
+        logger.debug('Add button clicked');
     }
 
     onDeleteClicked() {
-        window.alert('Delete button clicked');
+        logger.debug('Delete button clicked');
     }
 
     onAccessClicked(e) {
         e.preventDefault();
-        window.alert('Access popup is not implemented yet!');
+        logger.debug('Access popup is not implemented yet!');
     }
 
     onQuotasClicked(e) {
         e.preventDefault();
-        window.alert('Quotas popup is not implemented yet!');
+        logger.debug('Quotas popup is not implemented yet!');
     }
 
     onLogoutClicked(e) {
         e.preventDefault();
-        window.alert('Logout functionality is not implemented yet!');
+        logger.debug('Logout functionality is not implemented yet!');
     }
 }
