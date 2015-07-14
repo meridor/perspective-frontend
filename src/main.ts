@@ -1,24 +1,30 @@
 /// <reference path="../typings/tsd.d.ts" />
-/// <reference path="./typings/templates.d.ts" />
 
 import * as $ from 'jquery';
 import App from './app';
 import 'bootstrap';
 import {Route as route} from './misc/routes';
 import {Event as event} from './misc/events';
+import {Logger, LogLevel} from './misc/logger';
 
 $(() => {
-    let app = new App();
-    
-    app.on(event.START.name, () => {
-        app.renderMainLayout();
-        App.startHistory(() => {
-            if (!App.currentRoute) {
-                app.go(route.LIST.name);
-            }
+
+    let logger = new Logger('main');
+    try {
+        let app = new App();
+
+        app.on(event.START.name, () => {
+            app.renderMainLayout();
+            App.startHistory(() => {
+                if (!App.currentRoute) {
+                    app.go(route.LIST.name);
+                }
+            });
         });
-    });
-    
-    app.start();
+
+        app.start();
+    } catch (e) {
+        logger.error(e);
+    }
     
 });

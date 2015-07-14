@@ -1,6 +1,5 @@
 import * as Marionette from 'backbone.marionette';
 import {Settings} from '../models/settings';
-import header from '../templates/header.hbs';
 
 export class Header extends Marionette.LayoutView<Settings> {
 
@@ -30,6 +29,7 @@ export class Header extends Marionette.LayoutView<Settings> {
                 ]
             }
         ];
+        let header = require('../templates/header.hbs');
         super({
             className: 'container-fluid',
             template: header({username: 'vania-pooh', clouds: clouds})

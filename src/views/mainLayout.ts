@@ -1,6 +1,5 @@
 import * as Marionette from 'backbone.marionette';
 import {Settings} from '../models/settings';
-import mainLayout from '../templates/mainLayout.hbs';
 import {Header} from './header';
 import {MainArea} from './mainArea';
 
@@ -11,6 +10,7 @@ export class MainLayout extends Marionette.LayoutView<Settings> {
     private _mainArea: MainArea;
     
     constructor() {
+        let mainLayout = require('../templates/mainLayout.hbs');
         super({
             el: '#application',
             template: mainLayout()

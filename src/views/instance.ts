@@ -1,13 +1,10 @@
 import * as Marionette from 'backbone.marionette';
 import {Instance, Instances, InstancesGroup, InstancesSection} from '../models/instance';
-import instancesSection from '../templates/instance/instancesSection.hbs';
-import instancesGroup from '../templates/instance/instancesGroup.hbs';
-import instancesTable from '../templates/instance/instancesTable.hbs';
-import instanceEntry from '../templates/instance/instanceEntry.hbs';
 
 class InstanceView extends Marionette.ItemView<Instance> {
     
     constructor(instance: Instance) {
+        let instanceEntry = require('../templates/instance/instanceEntry.hbs');
         super({
             tagName: 'tr',
             template: instanceEntry(instance)
@@ -19,6 +16,7 @@ class InstanceView extends Marionette.ItemView<Instance> {
 class InstancesTableView extends Marionette.CompositeView<Instance> {
     
     constructor(instances: Instances) {
+        let instancesTable = require('../templates/instance/instancesTable.hbs');
         super({
             className: 'panel panel-default',
             collection: instances,
@@ -39,6 +37,7 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
     private _instancesTable: InstancesTableView;
     
     constructor(group: InstancesGroup) {
+        let instancesGroup = require('../templates/instance/instancesGroup.hbs');
         super({
             template: instancesGroup({
                 id: group.id,
@@ -66,6 +65,7 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 export class InstancesSectionView extends Marionette.CompositeView<InstancesGroup> {
 
     constructor(section: InstancesSection) {
+        let instancesSection = require('../templates/instance/instancesSection.hbs');
         super({
             collection: section.groups,
             childView: InstancesTableView,

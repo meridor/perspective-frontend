@@ -1,10 +1,10 @@
 import * as Marionette from 'backbone.marionette';
 import {Settings} from '../models/settings';
-import mainArea from '../templates/mainArea.hbs';
 
 export class MainArea extends Marionette.LayoutView<Settings> {
 
     constructor() {
+        let mainArea = require('../templates/mainArea.hbs');
         super({
             tagName: 'div',
             className: 'row',

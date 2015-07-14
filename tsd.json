@@ -33,6 +33,9 @@
     },
     "moment/moment-node.d.ts": {
       "commit": "a9c59f8166b4d7f1e8c4309a506987c2e6d78b5e"
+    },
+    "minilog/minilog.d.ts": {
+      "commit": "b95d6bea8041db86ccee30ef1ef97e4358432311"
     }
   }
 }
