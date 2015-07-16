@@ -7,11 +7,11 @@ let logger = new Logger('main');
 class InstanceView extends Marionette.ItemView<Instance> {
     
     constructor(instance: Instance) {
-        logger.debug(`Rendering instance ${instance}`);
+        logger.debug(`Rendering ${instance}`);
         let instanceEntry = require('../templates/instance/instanceEntry.hbs');
         super({
             tagName: 'tr',
-            template: instanceEntry(instance)
+            template: instanceEntry(instance.toJSON())
         });
     }
     

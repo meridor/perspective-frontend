@@ -2,6 +2,7 @@ import * as Marionette from 'backbone.marionette';
 import {InstancesSection, InstancesGroup, Instance}
     from '../models/instance';
 import {Image} from '../models/image';
+import {Network} from '../models/network';
 import {InstancesSectionView} from '../views/instance';
 import App from '../app';
 import {Logger} from '../misc/logger';
@@ -21,6 +22,10 @@ export class InstancesController extends Marionette.Object {
                 image: new Image({
                     id: 'image-id',
                     name: 'cool-image'
+                }),
+                network: new Network({
+                    id: '431',
+                    name: 'SOMENETWORK'
                 }),
                 keyName: 'test-key',
                 state: 'running',

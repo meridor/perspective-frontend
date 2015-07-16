@@ -53,7 +53,7 @@ export default class App extends Marionette.Application {
     }
     
     renderMainLayout() {
-        logger.debug('Rending main application layout');
+        logger.debug('Rendering main application layout');
         this.mainLayoutView.render();
     }
     

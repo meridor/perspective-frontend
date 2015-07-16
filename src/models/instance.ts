@@ -1,14 +1,11 @@
 import * as Backbone from 'backbone';
 import {Image} from './image';
+import {BaseModel} from './base';
 
-export class Instance extends Backbone.Model {
-    id: string;
-    name: string;
-    image: Image;
-    keyName: string;
+export class Instance extends BaseModel {
     
-    toString():string {
-        return `Instance(id=${this.id}, name=${this.name}, keyName=${this.keyName}})`;
+    toString() {
+        return `Instance(${this.toJSONString()}})`;
     }
 }
 
@@ -19,7 +16,7 @@ export class Instances extends Backbone.Collection<Instance> {
     }
 }
 
-export class InstancesGroup extends Backbone.Model {
+export class InstancesGroup extends BaseModel {
     
     private _count: number;
     

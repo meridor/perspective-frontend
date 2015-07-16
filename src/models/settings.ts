@@ -1,5 +1,5 @@
-import * as Backbone from 'backbone';
+import {BaseModel} from './base';
 
-export class Settings extends Backbone.Model {
+export class Settings extends BaseModel {
     
 }

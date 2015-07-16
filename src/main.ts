@@ -18,7 +18,6 @@ $(() => {
         app.on(event.START.name, () => {
             app.renderMainLayout();
             App.startHistory(() => {
-                logger.debug(`Current route is ${App.currentRoute}`);
                 if (!App.currentRoute) {
                     app.go(route.LIST.name);
                 }

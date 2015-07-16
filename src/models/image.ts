@@ -1,6 +1,9 @@
-import * as Backbone from 'backbone';
+import {BaseModel} from './base';
 
-export class Image extends Backbone.Model {
-    id: string;
-    name: string;
+export class Image extends BaseModel {
+
+    toString():string {
+        return `Image(${this.toJSONString()})`;
+    }
+    
 }
