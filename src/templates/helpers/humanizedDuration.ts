@@ -8,8 +8,10 @@ import * as moment from 'moment';
  * @param timestamp
  * @returns humanized string
  */
-export function humanizedDuration(timestamp) {
-    let currentTimestamp = moment.valueOf();
+function humanizedDuration (timestamp: number) {
+    let currentTimestamp = moment().valueOf();
     let duration = timestamp - currentTimestamp;
-    return moment.duration(duration).humanize();
+    return moment.duration(duration).humanize(true);
 }
+
+export = humanizedDuration;
