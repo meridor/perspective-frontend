@@ -6,6 +6,10 @@ let logger = new Logger('header');
 
 export class HeaderView extends Marionette.LayoutView<Settings> {
 
+    private _controls: Marionette.Region;
+
+    private _user: Marionette.Region;
+
     constructor() {
         let clouds = [
             {
@@ -37,6 +41,10 @@ export class HeaderView extends Marionette.LayoutView<Settings> {
             className: 'container-fluid',
             template: header({username: 'vania-pooh', clouds: clouds})
         });
+        this.addRegions({
+            controls: '#controls',
+            user: '#user'
+        });
         this.delegateEvents(HeaderView.getEvents());
     }
 
@@ -48,6 +56,22 @@ export class HeaderView extends Marionette.LayoutView<Settings> {
             'click li#quotas': 'onQuotasClicked',
             'click li#logout': 'onQuotasClicked'
         };
+    }
+
+    public get controls(): Marionette.Region {
+        return this._controls;
+    }
+
+    public set controls(value: Marionette.Region) {
+        this._controls = value;
+    }
+
+    public get user(): Marionette.Region {
+        return this._user;
+    }
+
+    public set user(value: Marionette.Region) {
+        this._user = value;
     }
 
     onAddClicked() {

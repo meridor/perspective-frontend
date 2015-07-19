@@ -6,7 +6,7 @@ export class CheckboxBehavior extends BaseBehavior {
         super(options, view);
         this.init();
     }
-    
+
     private init() {
         this.ui = {
             el: this.selector
@@ -18,7 +18,7 @@ export class CheckboxBehavior extends BaseBehavior {
         modelEvents[`change:${this.modelField}`] = 'updateView';
         this.modelEvents = modelEvents;
     }
-    
+
     onRender() {
         this.updateView();
     }

@@ -28,11 +28,11 @@ class Router extends Marionette.AppRouter implements Marionette.AppRouterOptions
 }
 
 export class App extends Marionette.Application {
-    
+
     private static _instance: App;
-    
+
     private _mainLayoutView: MainLayoutView;
-    
+
     constructor() {
         super();
         this.addInitializer(
@@ -47,16 +47,16 @@ export class App extends Marionette.Application {
         App.navigate(route);
         this.trigger(event);
     }
-    
+
     initEventHandlers() {
         this.on(event.LIST.name, () => mainController.list());
     }
-    
+
     renderMainLayout() {
         logger.debug('Rendering main application layout');
         this.mainLayoutView.render();
     }
-    
+
     static get instance() {
         return App._instance;
     }
@@ -74,21 +74,21 @@ export class App extends Marionette.Application {
     }
 
 
-    trigger(eventName:string, ...args):any {
+    trigger(eventName: string, ...args): any {
         logger.debug(`Firing event ${eventName} with arguments (${args})`);
         return super.trigger(eventName, args);
     }
 
-    static navigate(route:string) {
+    static navigate(route: string) {
         logger.debug(`Navigating to route ${route}`);
         Backbone.history.navigate(route);
     }
-    
+
     static startHistory(cb) {
         if (Backbone.history) {
             Backbone.history.start();
             cb();
         }
     }
-    
+
 }

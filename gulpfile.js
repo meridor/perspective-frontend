@@ -2,10 +2,10 @@ var gulp = require('gulp');
 var gulpif = require('gulp-if');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
-var stylish = require('jshint-stylish');
 var webpack = require('webpack');
 var minifyCss = require('gulp-minify-css');
 var argv = require('yargs').argv;
+var tslint = require('gulp-tslint')
 
 gulp.task('clean', function(cb) {
     del([
@@ -42,8 +42,16 @@ gulp.task('styles', ['fonts', 'images'], function() {
         .pipe(gulp.dest('dist/css'));
 });
 
+gulp.task('tslint', function(){
+    return gulp.src(['src/**/*.ts'])
+        .pipe($.plumber())
+        .pipe(tslint())
+        .pipe(tslint.report('verbose', {
+            emitError: false
+        }));
+});
 
-gulp.task('scripts', function(cb) {
+gulp.task('scripts', ['tslint'], function(cb) {
     var plugins = [
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -91,21 +99,12 @@ gulp.task('scripts', function(cb) {
     });
 });
 
-gulp.task('jshint', function() {
-    return gulp.src(['src/**/*.js', 'test/**/*.js'])
-        .pipe($.plumber())
-        .pipe($.jshint())
-        .pipe($.jshint.reporter(stylish));
-});
-
-var reporter = 'spec';
-
-gulp.task('mocha', ['jshint'], function() {
+gulp.task('mocha', function() {
     return gulp.src([
         'test/unit/*.js'
     ], { read: false })
         .pipe($.plumber())
-        .pipe($.mocha({ reporter: reporter }));
+        .pipe($.mocha({ reporter: 'spec' }));
 });
 
 gulp.task('build', [
@@ -116,9 +115,6 @@ gulp.task('build', [
     'test'
 ]);
 
-gulp.task('test', [
-    'jshint',
-    'mocha'
-]);
+gulp.task('test', ['mocha']);
 
 gulp.task('default', ['build']);

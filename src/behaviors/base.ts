@@ -8,11 +8,11 @@ export class BaseBehavior extends Marionette.Behavior {
 
     private _modelEvents;
 
-    constructor(options:any, view:any) {
+    constructor(options: any, view: any) {
         super(options, view);
     }
 
-    public get modelField():string {
+    public get modelField(): string {
         return this.getOption('modelField');
     }
 

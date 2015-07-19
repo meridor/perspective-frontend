@@ -2,8 +2,8 @@ import {BaseModel} from './base';
 
 export class Image extends BaseModel {
 
-    toString():string {
+    toString(): string {
         return `Image(${this.toJSONString()})`;
     }
-    
+
 }

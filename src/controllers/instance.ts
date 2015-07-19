@@ -10,7 +10,7 @@ import {Logger} from '../misc/logger';
 let logger = new Logger('header');
 
 export class InstancesController extends Marionette.Object {
-    
+
     listInstances() {
         logger.debug('Listing instances');
         let runningInstances = new InstancesGroup('running', 'Running', [
@@ -56,5 +56,5 @@ export class InstancesController extends Marionette.Object {
             .instances
             .show(instancesSectionView);
     }
-    
+
 }

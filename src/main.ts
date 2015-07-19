@@ -12,7 +12,7 @@ let logger = new Logger('main');
 $(() => {
 
     try {
-        logger.info("Initializing application");
+        logger.info('Initializing application');
         let app = new App();
 
         app.on(event.START.name, () => {
@@ -28,5 +28,5 @@ $(() => {
     } catch (e) {
         logger.error(e);
     }
-    
+
 });

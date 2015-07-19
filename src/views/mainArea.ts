@@ -5,7 +5,7 @@ export class MainAreaView extends Marionette.LayoutView<Settings> {
 
     private _instances: Marionette.Region;
     private _images: Marionette.Region;
-    
+
     constructor() {
         let mainArea = require('../templates/mainArea.hbs');
         super({
@@ -19,19 +19,19 @@ export class MainAreaView extends Marionette.LayoutView<Settings> {
         });
     }
 
-    public get instances():Marionette.Region {
+    public get instances(): Marionette.Region {
         return this._instances;
     }
 
-    public set instances(value:Marionette.Region) {
+    public set instances(value: Marionette.Region) {
         this._instances = value;
     }
 
-    public get images():Marionette.Region {
+    public get images(): Marionette.Region {
         return this._images;
     }
 
-    public set images(value:Marionette.Region) {
+    public set images(value: Marionette.Region) {
         this._images = value;
     }
 }

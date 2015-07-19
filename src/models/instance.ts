@@ -3,7 +3,7 @@ import {Image} from './image';
 import {BaseModel} from './base';
 
 export class Instance extends BaseModel {
-    
+
     toString() {
         return `Instance(${this.toJSONString()}})`;
     }
@@ -11,17 +11,17 @@ export class Instance extends BaseModel {
 
 export class Instances extends Backbone.Collection<Instance> {
 
-    constructor(models: Instance[]){
+    constructor(models: Instance[]) {
         super(models);
     }
 }
 
 export class InstancesGroup extends BaseModel {
-    
+
     private _count: number;
-    
+
     private _instances: Instances;
-    
+
     constructor(public id: string, public name: string, instances: Instance[]) {
         super({
             id,
@@ -32,33 +32,33 @@ export class InstancesGroup extends BaseModel {
     }
 
 
-    public get instances():Instances {
+    public get instances(): Instances {
         return this._instances;
     }
 
-    public get count():number {
+    public get count(): number {
         return this._count;
     }
-    
+
     public isEmpty(): boolean {
-        return this.count == 0;
+        return this.count === 0;
     }
 }
 
 class InstancesGroups extends Backbone.Collection<InstancesGroup> {
 
-    constructor(groups: InstancesGroup[]){
+    constructor(groups: InstancesGroup[]) {
         super(groups);
     }
-    
+
 }
 
 export class InstancesSection extends Backbone.Model {
-    
+
     private _count: number;
-    
+
     private _groups: InstancesGroups;
-    
+
     constructor(instancesGroups: InstancesGroup[]) {
         super(instancesGroups);
         this._count = instancesGroups.map(ig => ig.count).reduce(
@@ -69,7 +69,7 @@ export class InstancesSection extends Backbone.Model {
         );
         this._groups = new InstancesGroups(instancesGroups);
     }
-    
+
     get count() {
         return this._count;
     }

@@ -6,7 +6,7 @@ import {CheckboxBehavior} from '../behaviors/checkbox';
 let logger = new Logger('view:instance');
 
 class InstanceView extends Marionette.ItemView<Instance> {
-    
+
     constructor(instance: Instance) {
         logger.debug(`Rendering ${instance}`);
         console.log(instance);
@@ -31,7 +31,7 @@ class InstanceView extends Marionette.ItemView<Instance> {
 }
 
 class NoInstancesView extends Marionette.ItemView<Instance> {
-    
+
     constructor() {
         let noInstances = require('../templates/instance/noInstances.hbs');
         super({
@@ -39,11 +39,11 @@ class NoInstancesView extends Marionette.ItemView<Instance> {
             template: noInstances()
         });
     }
-    
+
 }
 
 class InstancesTableView extends Marionette.CompositeView<Instance> {
-    
+
     constructor(instances: Instances) {
         let instancesTable = require('../templates/instance/instancesTable.hbs');
         super({
@@ -55,13 +55,13 @@ class InstancesTableView extends Marionette.CompositeView<Instance> {
             template: instancesTable()
         });
     }
-    
+
     buildChildView(instance: Instance): InstanceView {
         return new InstanceView(instance);
     }
 
 
-    getEmptyView():any {
+    getEmptyView(): any {
         return new NoInstancesView();
     }
 }
@@ -72,7 +72,7 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
     private _instancesTableView: InstancesTableView;
     private _noInstancesView: NoInstancesView;
     private _instancesGroup: InstancesGroup;
-    
+
     constructor(group: InstancesGroup) {
         logger.debug(`Rendering instances group "${group.name}"`);
         let instancesGroup = require('../templates/instance/instancesGroup.hbs');
@@ -95,27 +95,27 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
     onRender() {
         let viewToShow = !this.instancesGroup.isEmpty() ?
             this.instancesTableView :
-            this.noInstancesView ;
+            this.noInstancesView;
         this.instances.show(viewToShow);
     }
-    
-    public get instances():Marionette.Region {
+
+    public get instances(): Marionette.Region {
         return this._instances;
     }
 
-    public set instances(value:Marionette.Region) {
+    public set instances(value: Marionette.Region) {
         this._instances = value;
     }
 
-    public get instancesTableView():InstancesTableView {
+    public get instancesTableView(): InstancesTableView {
         return this._instancesTableView;
     }
 
-    public get instancesGroup():InstancesGroup {
+    public get instancesGroup(): InstancesGroup {
         return this._instancesGroup;
     }
 
-    public get noInstancesView():NoInstancesView {
+    public get noInstancesView(): NoInstancesView {
         return this._noInstancesView;
     }
 }
@@ -133,10 +133,10 @@ export class InstancesSectionView extends Marionette.CompositeView<InstancesGrou
             template: instancesSection({count: section.count})
         });
     }
-    
+
     buildChildView(group: InstancesGroup) {
         return new InstancesGroupView(group);
     }
-    
+
 }
 
