@@ -39,6 +39,10 @@ export class InstancesGroup extends BaseModel {
     public get count():number {
         return this._count;
     }
+    
+    public isEmpty(): boolean {
+        return this.count == 0;
+    }
 }
 
 class InstancesGroups extends Backbone.Collection<InstancesGroup> {

@@ -12,7 +12,7 @@ let logger = new Logger('header');
 export class InstancesController extends Marionette.Object {
     
     listInstances() {
-        logger.debug(`Listing instances`);
+        logger.debug('Listing instances');
         let runningInstances = new InstancesGroup('running', 'Running', [
             new Instance({
                 id: '123',
@@ -47,7 +47,8 @@ export class InstancesController extends Marionette.Object {
                 log: true
             })
         ]);
-        let instancesSection = new InstancesSection([runningInstances, stoppedInstances]);
+        let errorInstances = new InstancesGroup('error', 'Error', []);
+        let instancesSection = new InstancesSection([runningInstances, stoppedInstances, errorInstances]);
         let instancesSectionView = new InstancesSectionView(instancesSection);
         App.instance
             .mainLayoutView

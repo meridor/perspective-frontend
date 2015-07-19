@@ -3,12 +3,13 @@ import {Instance, Instances, InstancesGroup, InstancesSection} from '../models/i
 import {Logger} from '../misc/logger';
 import {CheckboxBehavior} from '../behaviors/checkbox';
 
-let logger = new Logger('main');
+let logger = new Logger('view:instance');
 
 class InstanceView extends Marionette.ItemView<Instance> {
     
     constructor(instance: Instance) {
         logger.debug(`Rendering ${instance}`);
+        console.log(instance);
         let instanceEntry = require('../templates/instance/instanceEntry.hbs');
         super({
             model: instance,
@@ -29,6 +30,18 @@ class InstanceView extends Marionette.ItemView<Instance> {
 
 }
 
+class NoInstancesView extends Marionette.ItemView<Instance> {
+    
+    constructor() {
+        let noInstances = require('../templates/instance/noInstances.hbs');
+        super({
+            tagName: 'span',
+            template: noInstances()
+        });
+    }
+    
+}
+
 class InstancesTableView extends Marionette.CompositeView<Instance> {
     
     constructor(instances: Instances) {
@@ -46,13 +59,19 @@ class InstancesTableView extends Marionette.CompositeView<Instance> {
     buildChildView(instance: Instance): InstanceView {
         return new InstanceView(instance);
     }
-    
+
+
+    getEmptyView():any {
+        return new NoInstancesView();
+    }
 }
 
 class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 
     private _instances: Marionette.Region;
     private _instancesTableView: InstancesTableView;
+    private _noInstancesView: NoInstancesView;
+    private _instancesGroup: InstancesGroup;
     
     constructor(group: InstancesGroup) {
         logger.debug(`Rendering instances group "${group.name}"`);
@@ -69,10 +88,15 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
             instances: '.panel-body'
         });
         this._instancesTableView = new InstancesTableView(group.instances);
+        this._noInstancesView = new NoInstancesView();
+        this._instancesGroup = group;
     }
 
     onRender() {
-        this.instances.show(this.instancesTableView);
+        let viewToShow = !this.instancesGroup.isEmpty() ?
+            this.instancesTableView :
+            this.noInstancesView ;
+        this.instances.show(viewToShow);
     }
     
     public get instances():Marionette.Region {
@@ -85,6 +109,14 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 
     public get instancesTableView():InstancesTableView {
         return this._instancesTableView;
+    }
+
+    public get instancesGroup():InstancesGroup {
+        return this._instancesGroup;
+    }
+
+    public get noInstancesView():NoInstancesView {
+        return this._noInstancesView;
     }
 }
 
