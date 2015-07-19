@@ -52,17 +52,8 @@
                 <button type="button" id="delete" class="btn btn-default navbar-btn"><span class="fa fa-trash"></span> Delete</button>
             </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right" id="user">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user"></span> {{username}} <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li id="access"><a href="#"><span class="fa fa-key"></span> Access</a></li>
-                    <li id="quotas"><a href="#"><span class="fa fa-tachometer"></span> Quotas</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="https://github.com/meridor/perspective-frontend/wiki"><span class="fa fa-question-circle"></span> Help</a></li>
-                    <li id="logout"><a href="#"><span class="fa fa-sign-out"></span> Logout</a></li>
-                </ul>
-            </li>
-        </ul>
+        <span id="user">
+            {{! Here comes user menu }}
+        </span>
     </div>
 </div>
