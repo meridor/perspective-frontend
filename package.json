@@ -9,7 +9,7 @@
     "backbone-query-parameters": "^0.4.0",
     "backbone-routing": "^0.1.0",
     "backbone-service-modals": "^0.1.0",
-    "backbone.marionette": "^2.3.1",
+    "backbone.marionette": "^2.4.2",
     "backbone.radio": "^0.6.0",
     "backbone.service": "^0.4.1",
     "backbone.storage": "^0.1.0",
@@ -23,9 +23,6 @@
   },
   "devDependencies": {
     "awesome-typescript-loader": "^0.6.0-rc.11",
-    "babel": "^5.6.14",
-    "babel-core": "^5.6.17",
-    "babel-loader": "^5.3.1",
     "del": "^1.1.1",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.1.0",

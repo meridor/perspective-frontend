@@ -4,7 +4,7 @@ import {InstancesSection, InstancesGroup, Instance}
 import {Image} from '../models/image';
 import {Network} from '../models/network';
 import {InstancesSectionView} from '../views/instance';
-import App from '../app';
+import {App} from '../app';
 import {Logger} from '../misc/logger';
 
 let logger = new Logger('header');

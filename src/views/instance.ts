@@ -1,6 +1,7 @@
 import * as Marionette from 'backbone.marionette';
 import {Instance, Instances, InstancesGroup, InstancesSection} from '../models/instance';
 import {Logger} from '../misc/logger';
+import {CheckboxBehavior} from '../behaviors/checkbox';
 
 let logger = new Logger('main');
 
@@ -10,11 +11,22 @@ class InstanceView extends Marionette.ItemView<Instance> {
         logger.debug(`Rendering ${instance}`);
         let instanceEntry = require('../templates/instance/instanceEntry.hbs');
         super({
+            model: instance,
             tagName: 'tr',
             template: instanceEntry(instance.toJSON())
         });
     }
-    
+
+    get behaviors() {
+        return {
+            CheckboxBehavior: {
+                behaviorClass: CheckboxBehavior,
+                selector: 'input.selected',
+                modelField: 'selected'
+            }
+        };
+    }
+
 }
 
 class InstancesTableView extends Marionette.CompositeView<Instance> {

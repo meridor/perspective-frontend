@@ -48,7 +48,8 @@ gulp.task('scripts', function(cb) {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
-        })
+        }),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/) //Do not include moment.js locales
     ];
     if (prepareForProduction) {
         plugins.push(new webpack.optimize.UglifyJsPlugin({

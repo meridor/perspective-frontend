@@ -27,7 +27,7 @@ class Router extends Marionette.AppRouter implements Marionette.AppRouterOptions
 
 }
 
-export default class App extends Marionette.Application {
+export class App extends Marionette.Application {
     
     private static _instance: App;
     
@@ -79,7 +79,7 @@ export default class App extends Marionette.Application {
         return super.trigger(eventName, args);
     }
 
-    static navigate(route) {
+    static navigate(route:string) {
         logger.debug(`Navigating to route ${route}`);
         Backbone.history.navigate(route);
     }

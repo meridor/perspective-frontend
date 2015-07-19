@@ -1,7 +1,7 @@
 /// <reference path="../typings/tsd.d.ts" />
 
 import * as $ from 'jquery';
-import App from './app';
+import {App} from './app';
 import 'bootstrap';
 import {Route as route} from './misc/routes';
 import {Event as event} from './misc/events';
