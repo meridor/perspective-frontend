@@ -2,47 +2,22 @@ import * as Marionette from 'backbone.marionette';
 import {Settings} from '../models/settings';
 import {Logger} from '../misc/logger';
 
-let logger = new Logger('header');
+let logger = new Logger('view:header');
 
 export class HeaderView extends Marionette.LayoutView<Settings> {
 
-    private _controls: Marionette.Region;
+    private _panel: Marionette.Region;
 
     private _user: Marionette.Region;
 
     constructor() {
-        let clouds = [
-            {
-                name: 'Openstack',
-                projects: [
-                    {
-                        name: 'mystack',
-                        regions: [
-                            {name: 'Europe', enabled: true},
-                            {name: 'US West'}
-                        ]
-                    }
-                ]
-            },
-            {
-                name: 'Docker',
-                projects: [
-                    {
-                        name: 'docker',
-                        regions: [
-                            {name: 'test', enabled: true}
-                        ]
-                    }
-                ]
-            }
-        ];
         let header = require('../templates/header.hbs');
         super({
             className: 'container-fluid',
-            template: header({username: 'vania-pooh', clouds: clouds})
+            template: header()
         });
         this.addRegions({
-            controls: '#controls',
+            panel: '#panel',
             user: '#user'
         });
         this.delegateEvents(HeaderView.getEvents());
@@ -58,12 +33,12 @@ export class HeaderView extends Marionette.LayoutView<Settings> {
         };
     }
 
-    public get controls(): Marionette.Region {
-        return this._controls;
+    public get panel(): Marionette.Region {
+        return this._panel;
     }
 
-    public set controls(value: Marionette.Region) {
-        this._controls = value;
+    public set panel(value: Marionette.Region) {
+        this._panel = value;
     }
 
     public get user(): Marionette.Region {

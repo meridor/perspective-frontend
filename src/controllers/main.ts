@@ -1,27 +1,27 @@
 import * as Marionette from 'backbone.marionette';
 import {InstancesController} from './instance';
-import {CloudsController} from './clouds';
+import {PanelController} from './panel';
 import {UserController} from './user';
 
 export class MainController extends Marionette.Object {
 
     private _instancesController: InstancesController;
 
-    private _cloudsController: CloudsController;
+    private _panelController: PanelController;
 
     private _userController: UserController;
 
     constructor() {
         super();
-        this._instancesController = new InstancesController();
-        this._cloudsController = new CloudsController();
+        this._panelController = new PanelController();
         this._userController = new UserController();
+        this._instancesController = new InstancesController();
     }
 
     list() {
-        this._instancesController.listInstances();
-        this._cloudsController.listClouds();
+        this._panelController.showPanel();
         this._userController.showUserMenu();
+        this._instancesController.listInstances();
     }
 
 }

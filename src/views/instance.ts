@@ -9,7 +9,6 @@ class InstanceView extends Marionette.ItemView<Instance> {
 
     constructor(instance: Instance) {
         logger.debug(`Rendering ${instance}`);
-        console.log(instance);
         let instanceEntry = require('../templates/instance/instanceEntry.hbs');
         super({
             model: instance,
