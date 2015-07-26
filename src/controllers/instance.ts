@@ -7,7 +7,7 @@ import {InstancesSectionView} from '../views/instance';
 import {App} from '../app';
 import {Logger} from '../misc/logger';
 
-let logger = new Logger('header');
+let logger = new Logger('controller:instance');
 
 export class InstancesController extends Marionette.Object {
 

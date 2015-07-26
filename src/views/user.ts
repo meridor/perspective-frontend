@@ -14,4 +14,10 @@ export class UserMenuView extends Marionette.ItemView<User> {
 
     }
 
+    onRender(): void {
+        this.$el = this.$el.children();
+        this.$el.unwrap();
+        this.setElement(this.$el);
+    }
+
 }

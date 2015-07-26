@@ -1,18 +1,23 @@
 <div>
-    <div id="instancesSection">
+    <div id="instancesSection" role="tablist">
         {{! Instances will be displayed here }}
     </div>
-    
-    <div id="imagesSection" class="panel panel-default">
+
+    <div id="imagesSection" role="tablist" class="panel panel-default">
         <div class="panel-heading" role="tab" id="imagesListHeading">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-target="#imagesList" href="#imagesList" aria-expanded="true" aria-controls="imagesList">
+                <a role="button" data-toggle="collapse"
+                   data-target="#imagesList" href="#imagesList"
+                   aria-expanded="true" aria-controls="imagesList">
                     <span class="fa fa-database"></span> Images
                 </a>
-                <button id="imagesSettings" class="pull-right" title="Adjust image groups"><span class="fa fa-cog"></span></button>
+                <button id="imagesSettings" class="pull-right"
+                        title="Adjust image groups"><span
+                        class="fa fa-cog"></span></button>
             </h4>
         </div>
-        <div id="imagesList" class="panel-collapse collapse" role="tabpanel" aria-labelledby="imagesListHeading">
+        <div id="imagesList" class="panel-collapse collapse" role="tabpanel"
+             aria-labelledby="imagesListHeading">
             <div id="imagesGroups" class="panel-body">
                 {{! Image groups go here }}
             </div>

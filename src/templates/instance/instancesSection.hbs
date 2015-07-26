@@ -1,15 +1,19 @@
 <div>
     <div class="panel-heading" role="tab" id="instancesHeading">
         <h4 class="panel-title">
-            <a role="button" data-toggle="collapse" data-target="#instances" href="#instances" aria-expanded="true" aria-controls="instances">
-                <span class="fa fa-server"></span> 
-                Instances 
+            <a role="button" data-toggle="collapse" data-target="#instances"
+               href="#instances" aria-expanded="true" aria-controls="instances">
+                <span class="fa fa-server"></span>
+                Instances
                 ({{count}})
             </a>
-            <button id="instancesSettings" class="pull-right" title="Adjust instance groups"><span class="fa fa-cog"></span></button>
+            <button id="instancesSettings" class="pull-right"
+                    title="Adjust instance groups"><span
+                    class="fa fa-cog"></span></button>
         </h4>
     </div>
-    <div id="instances" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="instancesHeading">
+    <div id="instances" class="panel-collapse collapse in" role="tabpanel"
+         aria-labelledby="instancesHeading">
         <div id="instancesGroups" class="panel-body">
             {{! Instance groups go here }}
         </div>
