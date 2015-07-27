@@ -35,21 +35,21 @@ export class Cloud extends BaseModel {
 
 export class Project extends Cloud {
 
-    private _enabled: boolean;
+    private _selected: boolean;
 
-    constructor(name: string, regionName: string = '', enabled: boolean = false) {
+    constructor(name: string, regionName: string = '', selected: boolean = false) {
         let finalName = (regionName.length > 0) ?
             `${name} - ${regionName}` : name;
-        super(finalName, {enabled});
-        this._enabled = enabled;
+        super(finalName, {selected});
+        this._selected = selected;
     }
 
-    public get enabled(): boolean {
-        return this._enabled;
+    public get selected(): boolean {
+        return this._selected;
     }
 
-    public set enabled(value: boolean) {
-        this._enabled = value;
+    public set selected(value: boolean) {
+        this._selected = value;
     }
 
     toString() {

@@ -57,8 +57,10 @@ export class ProjectView extends Marionette.ItemView<Project> {
         return {
             CheckboxBehavior: {
                 behaviorClass: CheckboxBehavior,
-                selector: 'input.selected',
-                modelField: 'enabled'
+                selector: '.selected',
+                modelField: 'selected',
+                checkedClass: 'fa-check-square-o',
+                uncheckedClass: 'fa-square-o'
             }
         };
     }

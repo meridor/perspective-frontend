@@ -7,12 +7,20 @@ export class CheckboxBehavior extends BaseBehavior {
         this.init();
     }
 
+    public get checkedClass(): string {
+        return this.getOption('checkedClass');
+    }
+
+    public get uncheckedClass() {
+        return this.getOption('uncheckedClass');
+    }
+
     private init() {
         this.ui = {
             el: this.selector
         };
         this.events = {
-            'change @ui.el': 'updateModel'
+            'click @ui.el': 'toggleModel'
         };
         let modelEvents = {};
         modelEvents[`change:${this.modelField}`] = 'updateView';
@@ -25,12 +33,23 @@ export class CheckboxBehavior extends BaseBehavior {
 
     private updateView() {
         let checked = !!this.view.model.get(this.modelField);
-        this.ui.el.prop('checked', checked);
+        let classToRemove = checked ?
+            this.uncheckedClass :
+            this.checkedClass;
+        let classToAdd = checked ?
+            this.checkedClass :
+            this.uncheckedClass;
+        this.toggleClasses(classToRemove, classToAdd);
+    }
+    
+    private toggleClasses(classToRemove: string, classToAdd: string) {
+        this.ui.el.addClass(classToAdd);
+        this.ui.el.removeClass(classToRemove);
     }
 
-    private updateModel() {
-        let checked = this.ui.el.is(':checked');
-        this.view.model.set(this.modelField, checked);
+    private toggleModel() {
+        let checked = this.ui.el.hasClass(this.checkedClass);
+        this.view.model.set(this.modelField, !checked);
     }
 
 }

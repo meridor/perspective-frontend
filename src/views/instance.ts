@@ -21,8 +21,10 @@ class InstanceView extends Marionette.ItemView<Instance> {
         return {
             CheckboxBehavior: {
                 behaviorClass: CheckboxBehavior,
-                selector: 'input.selected',
-                modelField: 'selected'
+                selector: '.selected',
+                modelField: 'selected',
+                checkedClass: 'fa-check-square-o',
+                uncheckedClass: 'fa-square-o'
             }
         };
     }
