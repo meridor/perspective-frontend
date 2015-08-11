@@ -1,59 +1,66 @@
 import * as Backbone from 'backbone';
-import {BaseModel} from './base';
+import {BaseModel, IdentifiedModel} from './base';
 
 export class Settings extends BaseModel {
 
 }
 
-export class Clouds extends Backbone.Collection<Cloud> {
+export class Network extends IdentifiedModel {
 
-    constructor(clouds: Cloud[]) {
-        super(clouds);
+    toString() {
+        return `Network(${this.toJSONString()})`;
     }
 
 }
 
-export class Cloud extends BaseModel {
-
-    private _name: string;
-
-    constructor(name: string, options = {}) {
-        options['name'] = name;
-        super(options);
-        this._name = name;
-    }
-
-    public get name(): string {
-        return this._name;
-    }
+export class Flavor extends IdentifiedModel {
 
     toString() {
-        return `Cloud(${this.toJSONString()}})`;
+        return `Flavor(${this.toJSONString()})`;
     }
 
 }
 
-export class Project extends Cloud {
+export class AvailabilityZone extends IdentifiedModel {
 
-    private _selected: boolean;
-
-    constructor(name: string, regionName: string = '', selected: boolean = false) {
-        let finalName = (regionName.length > 0) ?
-            `${name} - ${regionName}` : name;
-        super(finalName, {selected});
-        this._selected = selected;
+    toString() {
+        return `AvailabilityZone(${this.toJSONString()})`;
     }
 
-    public get selected(): boolean {
-        return this._selected;
+}
+
+export class Project extends IdentifiedModel {
+
+    public get cloudType() {
+        return this.get('cloudType');
     }
 
-    public set selected(value: boolean) {
-        this._selected = value;
+    public get flavors(): Flavor[] {
+        return this.modelsFromField('flavors', n => new Flavor(n));
+    }
+
+    public get networks(): Network[] {
+        return this.modelsFromField('networks', n => new Network(n));
+    }
+
+    public get availabilityZones(): AvailabilityZone[] {
+        return this.modelsFromField('availabilityZones', az => new AvailabilityZone(az));
     }
 
     toString() {
-        return `Project(${this.toJSONString()}})`;
+        return `Project(${this.toJSONString()})`;
+    }
+
+}
+
+export class Projects extends Backbone.Collection<Project> {
+
+    public get url() {
+        return '/projects';
+    }
+
+    toString() {
+        return `Projects(${JSON.stringify(this.models)})`;
     }
 
 }

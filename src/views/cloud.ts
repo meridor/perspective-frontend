@@ -1,42 +1,25 @@
 import * as Marionette from 'backbone.marionette';
-import {Settings, Cloud, Clouds, Project} from '../models/settings';
+import {Settings, Projects, Project} from '../models/settings';
 import {CheckboxBehavior} from '../behaviors/checkbox';
 import {Logger} from '../misc/logger';
 
 let logger = new Logger('view:cloud');
 
-export class CloudsDropdownView extends Marionette.CompositeView<Cloud> {
+export class CloudsDropdownView extends Marionette.CompositeView<Project> {
 
-    constructor(clouds: Clouds) {
+    constructor(projects: Projects) {
         let dropdown = require('../templates/cloud/dropdown.hbs');
         super({
             el: '#cloudsDropdown',
-            collection: clouds,
-            childView: CloudView,
+            collection: projects,
+            childView: ProjectView,
             childViewContainer: '#clouds',
             template: dropdown()
         });
     }
 
-    buildChildView(cloudOrProject: Cloud): Marionette.ItemView<Cloud> {
-        return (cloudOrProject instanceof Project) ?
-            new ProjectView(<Project> cloudOrProject) :
-            new CloudView(cloudOrProject);
-    }
-
-}
-
-export class CloudView extends Marionette.ItemView<Cloud> {
-
-    constructor(cloud: Cloud) {
-        logger.debug(`Rendering ${cloud}`);
-        let cloudEntry = require('../templates/cloud/cloud.hbs');
-        super({
-            tagName: 'li',
-            className: 'dropdown-header',
-            model: cloud,
-            template: cloudEntry(cloud.toJSON())
-        });
+    buildChildView(project: Project): Marionette.ItemView<Project> {
+        return new ProjectView(project);
     }
 
 }

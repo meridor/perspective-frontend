@@ -5,7 +5,7 @@ import {BaseModel} from './base';
 export class Instance extends BaseModel {
 
     toString() {
-        return `Instance(${this.toJSONString()}})`;
+        return `Instance(${this.toJSONString()})`;
     }
 }
 

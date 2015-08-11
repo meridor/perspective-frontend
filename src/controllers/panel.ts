@@ -1,6 +1,6 @@
 import * as Marionette from 'backbone.marionette';
 import {App} from '../app';
-import {Settings, Clouds, Cloud, Project} from '../models/settings';
+import {Settings, Projects, Project} from '../models/settings';
 import {PanelView} from '../views/panel';
 import {CloudsDropdownView} from '../views/cloud';
 import {Logger} from '../misc/logger';
@@ -17,16 +17,21 @@ export class PanelController extends Marionette.Object {
             mainLayoutView.
             headerView.
             panel.show(panelView);
+        let projects = new Projects();
+        let that = this;
+        projects.fetch({
+            success: function (loadedProjects: Projects) {
+                logger.debug('Rendering projects dropdown');
+                PanelController.showCloudsDropdown(loadedProjects);
+            },
+            error: function () {
+                logger.debug('Failed to load projects list');
+            }
+        });
+    }
 
-        let clouds: Clouds = new Clouds([
-            new Cloud('Openstack'),
-            new Project('mystack', 'Europe'),
-            new Project('mystack', 'US West'),
-            new Cloud('Docker'),
-            new Project('docker-test', '', true)
-        ]);
-
-        let cloudsDropdownView = new CloudsDropdownView(clouds);
+    private static showCloudsDropdown(projects: Projects) {
+        let cloudsDropdownView = new CloudsDropdownView(projects);
         cloudsDropdownView.render();
     }
 

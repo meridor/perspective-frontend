@@ -2,7 +2,7 @@ import * as Marionette from 'backbone.marionette';
 import {InstancesSection, InstancesGroup, Instance}
     from '../models/instance';
 import {Image} from '../models/image';
-import {Network} from '../models/network';
+import {Network} from '../models/settings';
 import {InstancesSectionView} from '../views/instance';
 import {App} from '../app';
 import {Logger} from '../misc/logger';
