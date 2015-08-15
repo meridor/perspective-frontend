@@ -41,7 +41,7 @@ export class CheckboxBehavior extends BaseBehavior {
             this.uncheckedClass;
         this.toggleClasses(classToRemove, classToAdd);
     }
-    
+
     private toggleClasses(classToRemove: string, classToAdd: string) {
         this.ui.el.addClass(classToAdd);
         this.ui.el.removeClass(classToRemove);

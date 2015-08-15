@@ -13,27 +13,31 @@ export class InstancesController extends Marionette.Object {
 
     listInstances() {
         logger.debug('Listing instances');
-        let runningInstances = new InstancesGroup('running', 'Running', [
-            new Instance({
-                id: '123',
-                name: 'running-instance',
-                cloudType: 'Openstack',
-                selected: true,
-                image: new Image({
-                    id: 'image-id',
-                    name: 'cool-image'
-                }),
-                network: new Network({
-                    id: '431',
-                    name: 'SOMENETWORK'
-                }),
-                keyName: 'test-key',
-                state: 'running',
-                lastModified: 1318874398806,
-                log: true
-            })
-        ]);
-        let stoppedInstances = new InstancesGroup('stopped', 'Stopped', [
+        let runningInstances = new InstancesGroup('running', 'Running');
+        setTimeout(() => {
+            runningInstances.instances.reset([
+                new Instance({
+                    id: '123',
+                    name: 'running-instance',
+                    cloudType: 'Openstack',
+                    selected: true,
+                    image: new Image({
+                        id: 'image-id',
+                        name: 'cool-image'
+                    }),
+                    network: new Network({
+                        id: '431',
+                        name: 'SOMENETWORK'
+                    }),
+                    keyName: 'test-key',
+                    state: 'running',
+                    lastModified: 1318874398806,
+                    log: true
+                })
+            ]);
+        }, 2000);
+        let stoppedInstances = new InstancesGroup('stopped', 'Stopped');
+        stoppedInstances.instances.reset([
             new Instance({
                 id: '222',
                 name: 'stopped-instance',
@@ -47,7 +51,7 @@ export class InstancesController extends Marionette.Object {
                 log: true
             })
         ]);
-        let errorInstances = new InstancesGroup('error', 'Error', []);
+        let errorInstances = new InstancesGroup('error', 'Error');
         let instancesSection = new InstancesSection([runningInstances, stoppedInstances, errorInstances]);
         let instancesSectionView = new InstancesSectionView(instancesSection);
         App.instance

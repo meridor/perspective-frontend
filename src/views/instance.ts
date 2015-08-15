@@ -67,37 +67,49 @@ class InstancesTableView extends Marionette.CompositeView<Instance> {
     }
 }
 
+class InstancesGroupTitleView extends Marionette.ItemView<InstancesGroup> {
+
+    constructor(group: InstancesGroup) {
+        let instancesGroupTitle = require('../templates/instance/instancesGroupTitle.hbs');
+        super({
+            tagName: 'span',
+            model: group,
+            template: instancesGroupTitle(group)
+        });
+    }
+
+}
+
 class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 
     private _instances: Marionette.Region;
+    private _title: Marionette.Region;
     private _instancesTableView: InstancesTableView;
     private _noInstancesView: NoInstancesView;
-    private _instancesGroup: InstancesGroup;
 
     constructor(group: InstancesGroup) {
-        logger.debug(`Rendering instances group "${group.name}"`);
         let instancesGroup = require('../templates/instance/instancesGroup.hbs');
         super({
             className: 'panel panel-default',
-            template: instancesGroup({
-                id: group.id,
-                name: group.name,
-                count: group.count
-            })
+            model: group,
+            template: instancesGroup(group)
         });
         this.addRegions({
+            title: '.panel-title a',
             instances: '.panel-body'
         });
-        this._instancesTableView = new InstancesTableView(group.instances);
+        this._instancesTableView = new InstancesTableView(this.model.instances);
         this._noInstancesView = new NoInstancesView();
-        this._instancesGroup = group;
+        this.model.bind('change', this.render);
     }
 
     onRender() {
-        let viewToShow = !this.instancesGroup.isEmpty() ?
+        logger.debug(`Rendering instances group "${this.model.name}"`);
+        let viewToShow = !this.model.isEmpty() ?
             this.instancesTableView :
             this.noInstancesView;
         this.instances.show(viewToShow);
+        this.title.show(new InstancesGroupTitleView(this.model));
     }
 
     public get instances(): Marionette.Region {
@@ -108,12 +120,16 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
         this._instances = value;
     }
 
-    public get instancesTableView(): InstancesTableView {
-        return this._instancesTableView;
+    public get title(): Marionette.Region {
+        return this._title;
     }
 
-    public get instancesGroup(): InstancesGroup {
-        return this._instancesGroup;
+    public set title(value: Marionette.Region) {
+        this._title = value;
+    }
+
+    public get instancesTableView(): InstancesTableView {
+        return this._instancesTableView;
     }
 
     public get noInstancesView(): NoInstancesView {

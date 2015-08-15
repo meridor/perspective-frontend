@@ -28,6 +28,14 @@ export class IdentifiedModel extends BaseModel {
 
 }
 
+export class BaseCollection<T extends Backbone.Model> extends Backbone.Collection<T> {
+
+    toJSONString() {
+        return JSON.stringify(this.models);
+    }
+
+}
+
 //Default Backbone.sync implementation
 let oldSync = Backbone.sync;
 Backbone.sync = function (method, model, options) {

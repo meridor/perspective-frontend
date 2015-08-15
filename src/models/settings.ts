@@ -1,5 +1,4 @@
-import * as Backbone from 'backbone';
-import {BaseModel, IdentifiedModel} from './base';
+import {BaseModel, IdentifiedModel, BaseCollection} from './base';
 
 export class Settings extends BaseModel {
 
@@ -53,7 +52,7 @@ export class Project extends IdentifiedModel {
 
 }
 
-export class Projects extends Backbone.Collection<Project> {
+export class Projects extends BaseCollection<Project> {
 
     public get url() {
         return '/projects';

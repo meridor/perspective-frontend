@@ -1,16 +1,16 @@
 <div>
-    <div class="panel-heading" role="tab" id="{{id}}InstancesHeading">
+    <div class="panel-heading" role="tab" id="{{this.id}}InstancesHeading">
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse"
-               data-target="#{{id}}Instances" href="#{{id}}Instances"
-               aria-expanded="true" aria-controls="{{id}}Instances">
-                {{name}} ({{count}})
+               data-target="#{{this.id}}Instances" href="#{{this.id}}Instances"
+               aria-expanded="true" aria-controls="{{this.id}}Instances">
+                {{! Instance group title and instances count goes here }}
             </a>
         </h4>
     </div>
-    <div id="{{id}}Instances" class="panel-collapse collapse in"
+    <div id="{{this.id}}Instances" class="panel-collapse collapse in"
          role="tabpanel"
-         aria-labelledby="{{id}}InstancesHeading">
+         aria-labelledby="{{this.id}}InstancesHeading">
         <div class="panel-body">
             {{! Instances table goes here }}
         </div>
