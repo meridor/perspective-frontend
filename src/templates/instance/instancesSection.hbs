@@ -3,13 +3,17 @@
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-target="#instances"
                href="#instances" aria-expanded="true" aria-controls="instances">
-                <span class="fa fa-server"></span>
-                Instances
-                ({{count}})
+                {{! Instances section title goes here }}
             </a>
             <button id="instancesSettings" class="pull-right"
                     title="Adjust instance groups"><span
                     class="fa fa-cog"></span></button>
+            <button id="expandInstances" class="pull-right"
+                    title="Expand instance groups"><span
+                    class="fa fa-chevron-down"></span></button>
+            <button id="collapseInstances" class="pull-right"
+                    title="Collapse instance groups"><span
+                    class="fa fa-chevron-up"></span></button>
         </h4>
     </div>
     <div id="instances" class="panel-collapse collapse in" role="tabpanel"

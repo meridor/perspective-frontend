@@ -37,20 +37,22 @@ export class InstancesController extends Marionette.Object {
             ]);
         }, 2000);
         let stoppedInstances = new InstancesGroup('stopped', 'Stopped');
-        stoppedInstances.instances.reset([
-            new Instance({
-                id: '222',
-                name: 'stopped-instance',
-                cloudType: 'Docker',
-                image: {
-                    name: 'another-image'
-                },
-                keyName: 'some-key',
-                state: 'shutoff',
-                lastModified: 1318874398333,
-                log: true
-            })
-        ]);
+        setTimeout(() => {
+            stoppedInstances.instances.reset([
+                new Instance({
+                    id: '222',
+                    name: 'stopped-instance',
+                    cloudType: 'Docker',
+                    image: {
+                        name: 'another-image'
+                    },
+                    keyName: 'some-key',
+                    state: 'shutoff',
+                    lastModified: 1318874398333,
+                    log: true
+                })
+            ]);
+        }, 4000);
         let errorInstances = new InstancesGroup('error', 'Error');
         let instancesSection = new InstancesSection([runningInstances, stoppedInstances, errorInstances]);
         let instancesSectionView = new InstancesSectionView(instancesSection);

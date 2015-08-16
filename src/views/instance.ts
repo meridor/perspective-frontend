@@ -1,7 +1,8 @@
 import * as Marionette from 'backbone.marionette';
-import {Instance, Instances, InstancesGroup, InstancesSection} from '../models/instance';
+import {Instance, Instances, InstancesGroup, InstancesGroups, InstancesSection} from '../models/instance';
 import {Logger} from '../misc/logger';
 import {CheckboxBehavior} from '../behaviors/checkbox';
+import {Event as event} from '../misc/events';
 
 let logger = new Logger('view:instance');
 
@@ -84,8 +85,6 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 
     private _instances: Marionette.Region;
     private _title: Marionette.Region;
-    private _instancesTableView: InstancesTableView;
-    private _noInstancesView: NoInstancesView;
 
     constructor(group: InstancesGroup) {
         let instancesGroup = require('../templates/instance/instancesGroup.hbs');
@@ -98,18 +97,16 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
             title: '.panel-title a',
             instances: '.panel-body'
         });
-        this._instancesTableView = new InstancesTableView(this.model.instances);
-        this._noInstancesView = new NoInstancesView();
-        this.model.bind('change', this.render);
+        this.model.bind(event.INSTANCE_GROUP_CHANGE.name, this.render);
     }
 
     onRender() {
         logger.debug(`Rendering instances group "${this.model.name}"`);
-        let viewToShow = !this.model.isEmpty() ?
-            this.instancesTableView :
-            this.noInstancesView;
-        this.instances.show(viewToShow);
         this.title.show(new InstancesGroupTitleView(this.model));
+        let viewToShow = !this.model.isEmpty() ?
+            new InstancesTableView(this.model.instances) :
+            new NoInstancesView();
+        this.instances.show(viewToShow);
     }
 
     public get instances(): Marionette.Region {
@@ -128,32 +125,82 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
         this._title = value;
     }
 
-    public get instancesTableView(): InstancesTableView {
-        return this._instancesTableView;
-    }
-
-    public get noInstancesView(): NoInstancesView {
-        return this._noInstancesView;
-    }
 }
 
-export class InstancesSectionView extends Marionette.CompositeView<InstancesGroup> {
-
-    constructor(section: InstancesSection) {
-        logger.debug('Rendering instances section');
+class InstancesGroupCollectionView extends Marionette.CollectionView<InstancesGroup> {
+    
+    constructor(groups: InstancesGroups) {
         let instancesSection = require('../templates/instance/instancesSection.hbs');
         super({
-            className: 'panel panel-default',
-            collection: section.groups,
-            childView: InstancesTableView,
-            childViewContainer: '#instancesGroups',
-            template: instancesSection({count: section.count})
+            tagName: 'span',
+            collection: groups,
+            childView: InstancesGroupView
         });
     }
 
     buildChildView(group: InstancesGroup) {
         return new InstancesGroupView(group);
     }
+    
+}
 
+class InstancesSectionTitleView extends Marionette.ItemView<InstancesSection> {
+
+    constructor(section: InstancesSection) {
+        let instancesSectionTitle = require('../templates/instance/instancesSectionTitle.hbs');
+        super({
+            tagName: 'span',
+            model: section,
+            template: instancesSectionTitle(section)
+        });
+    }
+
+}
+
+export class InstancesSectionView extends Marionette.LayoutView<InstancesSection> {
+
+    private _title: Marionette.Region;
+    private _groups: Marionette.Region;
+
+    constructor(section: InstancesSection) {
+        let instancesSection = require('../templates/instance/instancesSection.hbs');
+        super({
+            className: 'panel panel-default',
+            model: section,
+            template: instancesSection()
+        });
+        this.addRegions({
+            title: '.panel-title a',
+            groups: '.panel-body'
+        });
+        this.model.groups.forEach(gr => gr.bind(event.INSTANCE_GROUP_CHANGE.name, this.refreshTitle, this));
+    }
+
+    onRender() {
+        logger.debug(`Rendering instances section`);
+        this.refreshTitle();
+        this.groups.show(new InstancesGroupCollectionView(this.model.groups));
+    }
+    
+    refreshTitle() {
+        logger.debug(`Current instances section count = ${this.model.count}`);
+        this.title.show(new InstancesSectionTitleView(this.model));
+    }
+
+    public get title(): Marionette.Region {
+        return this._title;
+    }
+
+    public set title(value: Marionette.Region) {
+        this._title = value;
+    }
+
+    public get groups(): Marionette.Region {
+        return this._groups;
+    }
+
+    public set groups(value: Marionette.Region) {
+        this._groups = value;
+    }
 }
 

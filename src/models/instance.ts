@@ -1,5 +1,6 @@
 import {Image} from './image';
 import {BaseModel, BaseCollection} from './base';
+import {Event as event} from '../misc/events';
 
 export class Instance extends BaseModel {
 
@@ -28,8 +29,8 @@ export class InstancesGroup extends BaseModel {
             name,
             instances: new Instances()
         });
-        this.instances.on('reset', () => {
-            this.trigger('change');
+        this.instances.on(event.RESET.name, () => {
+            this.trigger(event.INSTANCE_GROUP_CHANGE.name);
         });
     }
 
@@ -45,9 +46,13 @@ export class InstancesGroup extends BaseModel {
         return this.count === 0;
     }
 
+    toString() {
+        return `InstancesGroup(${this.toJSONString()})`;
+    }
+
 }
 
-class InstancesGroups extends BaseCollection<InstancesGroup> {
+export class InstancesGroups extends BaseCollection<InstancesGroup> {
 
     constructor(groups: InstancesGroup[]) {
         super(groups);
@@ -64,9 +69,9 @@ export class InstancesSection extends BaseModel {
         this._groups = new InstancesGroups(instancesGroups);
     }
 
-    get count() {
+    public get count() {
         return this.groups.map(ig => ig.count).reduce(
-            //Sum up length field of each group
+            //Sum up count field of each group
             (prev, curr) => {
                 return prev + curr;
             }
