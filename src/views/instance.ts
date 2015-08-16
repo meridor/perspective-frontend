@@ -183,7 +183,6 @@ export class InstancesSectionView extends Marionette.LayoutView<InstancesSection
     }
     
     refreshTitle() {
-        logger.debug(`Current instances section count = ${this.model.count}`);
         this.title.show(new InstancesSectionTitleView(this.model));
     }
 

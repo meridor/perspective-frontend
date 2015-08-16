@@ -10,11 +10,19 @@ export class Instance extends BaseModel {
 }
 
 export class Instances extends BaseCollection<Instance> {
+    
+    public fetchByQuery(query: string, onSuccess: (instances: Instances) => void, onError: () => void): JQueryXHR {
+        return super.fetch({
+            data: $.param({query}),
+            success: onSuccess,
+            error: onError
+        });
+    }
 
-    //public get url() {
-    //    return '/instances';
-    //}
-    //
+    public get url() {
+        return '/instances';
+    }
+    
     toString() {
         return `Instances(${this.toJSONString()})`;
     }

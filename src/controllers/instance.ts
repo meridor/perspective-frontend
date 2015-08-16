@@ -1,5 +1,5 @@
 import * as Marionette from 'backbone.marionette';
-import {InstancesSection, InstancesGroup, Instance}
+import {InstancesSection, InstancesGroup, Instance, Instances}
     from '../models/instance';
 import {Image} from '../models/image';
 import {Network} from '../models/settings';
@@ -13,48 +13,45 @@ export class InstancesController extends Marionette.Object {
 
     listInstances() {
         logger.debug('Listing instances');
-        let runningInstances = new InstancesGroup('running', 'Running');
-        setTimeout(() => {
-            runningInstances.instances.reset([
-                new Instance({
-                    id: '123',
-                    name: 'running-instance',
-                    cloudType: 'Openstack',
-                    selected: true,
-                    image: new Image({
-                        id: 'image-id',
-                        name: 'cool-image'
-                    }),
-                    network: new Network({
-                        id: '431',
-                        name: 'SOMENETWORK'
-                    }),
-                    keyName: 'test-key',
-                    state: 'running',
-                    lastModified: 1318874398806,
-                    log: true
-                })
-            ]);
-        }, 2000);
-        let stoppedInstances = new InstancesGroup('stopped', 'Stopped');
-        setTimeout(() => {
-            stoppedInstances.instances.reset([
-                new Instance({
-                    id: '222',
-                    name: 'stopped-instance',
-                    cloudType: 'Docker',
-                    image: {
-                        name: 'another-image'
-                    },
-                    keyName: 'some-key',
-                    state: 'shutoff',
-                    lastModified: 1318874398333,
-                    log: true
-                })
-            ]);
-        }, 4000);
-        let errorInstances = new InstancesGroup('error', 'Error');
-        let instancesSection = new InstancesSection([runningInstances, stoppedInstances, errorInstances]);
+        let instancesFetcher = new Instances();
+        let activeInstancesGroup = new InstancesGroup('active', 'Active');
+        instancesFetcher.fetchByQuery(
+            'state IN (' +
+                '\'DELETING\', \'HARD_REBOOTING\', \'LAUNCHING\', \'MIGRATING\',' +
+                ' \'PAUSING\', \'QUEUED\', \'REBOOTING\', \'REBUILDING\',' +
+                ' \'RESIZING\', \'RESUMING\', \'HARD_REBOOTING\',' +
+                ' \'SHUTTING_DOWN\', \'SNAPSHOTTING\', \'SUSPENDING\')',
+            (instances: Instances) => activeInstancesGroup.instances.reset(instances.models),
+            () => logger.error('Failed to load active instances')
+        );
+
+        let runningInstancesGroup = new InstancesGroup('running', 'Running');
+        instancesFetcher.fetchByQuery(
+            'state IN (\'LAUNCHED\')',
+            (instances: Instances) => runningInstancesGroup.instances.reset(instances.models),
+            () => logger.error('Failed to load running instances')
+        );
+        
+        let stoppedInstancesGroup = new InstancesGroup('stopped', 'Stopped');
+        instancesFetcher.fetchByQuery(
+            'state IN (\'SHUTOFF\', \'PAUSED\', \'SUSPENDED\')',
+            (instances: Instances) => stoppedInstancesGroup.instances.reset(instances.models),
+            () => logger.error('Failed to load stopped instances')
+
+        );
+        
+        let errorInstancesGroup = new InstancesGroup('error', 'Error');
+        instancesFetcher.fetchByQuery(
+            'state = \'ERROR\'',
+            (instances: Instances) => errorInstancesGroup.instances.reset(instances.models),
+            () => logger.error('Failed to load error instances')
+
+        );
+
+        let instancesSection = new InstancesSection([
+            activeInstancesGroup, errorInstancesGroup,
+            runningInstancesGroup, stoppedInstancesGroup
+        ]);
         let instancesSectionView = new InstancesSectionView(instancesSection);
         App.instance
             .mainLayoutView
