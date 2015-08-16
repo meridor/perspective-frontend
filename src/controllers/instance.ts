@@ -14,13 +14,13 @@ export class InstancesController extends Marionette.Object {
     listInstances() {
         logger.debug('Listing instances');
         let instancesFetcher = new Instances();
-        let activeInstancesGroup = new InstancesGroup('active', 'Active');
+        let activeInstancesGroup = new InstancesGroup('in_progress', 'In progress');
         instancesFetcher.fetchByQuery(
             'state IN (' +
-                '\'DELETING\', \'HARD_REBOOTING\', \'LAUNCHING\', \'MIGRATING\',' +
-                ' \'PAUSING\', \'QUEUED\', \'REBOOTING\', \'REBUILDING\',' +
-                ' \'RESIZING\', \'RESUMING\', \'HARD_REBOOTING\',' +
-                ' \'SHUTTING_DOWN\', \'SNAPSHOTTING\', \'SUSPENDING\')',
+            '\'DELETING\', \'HARD_REBOOTING\', \'LAUNCHING\', \'MIGRATING\',' +
+            ' \'PAUSING\', \'QUEUED\', \'REBOOTING\', \'REBUILDING\',' +
+            ' \'RESIZING\', \'RESUMING\', \'HARD_REBOOTING\',' +
+            ' \'SHUTTING_DOWN\', \'SNAPSHOTTING\', \'SUSPENDING\')',
             (instances: Instances) => activeInstancesGroup.instances.reset(instances.models),
             () => logger.error('Failed to load active instances')
         );
@@ -31,21 +31,19 @@ export class InstancesController extends Marionette.Object {
             (instances: Instances) => runningInstancesGroup.instances.reset(instances.models),
             () => logger.error('Failed to load running instances')
         );
-        
+
         let stoppedInstancesGroup = new InstancesGroup('stopped', 'Stopped');
         instancesFetcher.fetchByQuery(
             'state IN (\'SHUTOFF\', \'PAUSED\', \'SUSPENDED\')',
             (instances: Instances) => stoppedInstancesGroup.instances.reset(instances.models),
             () => logger.error('Failed to load stopped instances')
-
         );
-        
+
         let errorInstancesGroup = new InstancesGroup('error', 'Error');
         instancesFetcher.fetchByQuery(
             'state = \'ERROR\'',
             (instances: Instances) => errorInstancesGroup.instances.reset(instances.models),
             () => logger.error('Failed to load error instances')
-
         );
 
         let instancesSection = new InstancesSection([

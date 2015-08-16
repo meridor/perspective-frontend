@@ -128,7 +128,7 @@ class InstancesGroupView extends Marionette.LayoutView<InstancesGroup> {
 }
 
 class InstancesGroupCollectionView extends Marionette.CollectionView<InstancesGroup> {
-    
+
     constructor(groups: InstancesGroups) {
         let instancesSection = require('../templates/instance/instancesSection.hbs');
         super({
@@ -141,7 +141,7 @@ class InstancesGroupCollectionView extends Marionette.CollectionView<InstancesGr
     buildChildView(group: InstancesGroup) {
         return new InstancesGroupView(group);
     }
-    
+
 }
 
 class InstancesSectionTitleView extends Marionette.ItemView<InstancesSection> {
@@ -181,7 +181,7 @@ export class InstancesSectionView extends Marionette.LayoutView<InstancesSection
         this.refreshTitle();
         this.groups.show(new InstancesGroupCollectionView(this.model.groups));
     }
-    
+
     refreshTitle() {
         this.title.show(new InstancesSectionTitleView(this.model));
     }
