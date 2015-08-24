@@ -6,6 +6,10 @@ var webpack = require('webpack');
 var minifyCss = require('gulp-minify-css');
 var argv = require('yargs').argv;
 var tslint = require('gulp-tslint')
+var minifyHTML = require('gulp-minify-html');
+var doNothing = require('gulp-empty');
+
+var prepareForProduction = argv.production;
 
 gulp.task('clean', function(cb) {
     del([
@@ -14,7 +18,11 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('html', function() {
+    var minify = prepareForProduction ? 
+        minifyHTML() :
+        doNothing();
     return gulp.src('src/index.html')
+        .pipe(minify)
         .pipe($.plumber())
         .pipe(gulp.dest('dist'));
 });
@@ -29,7 +37,6 @@ gulp.task('images', function() {
         .pipe(gulp.dest('./dist/img'));
 });
 
-var prepareForProduction = argv.production;
 
 gulp.task('styles', ['fonts', 'images'], function() {
     return gulp.src('src/main.less')
