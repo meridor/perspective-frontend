@@ -1,7 +1,6 @@
 import * as Marionette from 'backbone.marionette';
-import {Settings} from '../models/settings';
+import {Settings} from '../models/project';
 import {HeaderView} from './header';
-import {MainAreaView} from './mainArea';
 
 export class MainLayoutView extends Marionette.LayoutView<Settings> {
 
@@ -9,7 +8,6 @@ export class MainLayoutView extends Marionette.LayoutView<Settings> {
     private _headerView: HeaderView;
 
     private _mainArea: Marionette.Region;
-    private _mainAreaView: MainAreaView;
 
     constructor() {
         let mainLayout = require('../templates/mainLayout.hbs');
@@ -21,13 +19,11 @@ export class MainLayoutView extends Marionette.LayoutView<Settings> {
             header: '#header',
             mainArea: '#mainArea'
         });
-        this._mainAreaView = new MainAreaView();
         this._headerView = new HeaderView();
     }
 
     onRender() {
         this.header.show(this.headerView);
-        this.mainArea.show(this.mainAreaView);
     }
 
     public get header(): Marionette.Region {
@@ -50,7 +46,4 @@ export class MainLayoutView extends Marionette.LayoutView<Settings> {
         return this._headerView;
     }
 
-    public get mainAreaView(): MainAreaView {
-        return this._mainAreaView;
-    }
 }

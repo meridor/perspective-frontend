@@ -2,8 +2,9 @@ import * as Marionette from 'backbone.marionette';
 import {InstancesSection, InstancesGroup, Instance, Instances}
     from '../models/instance';
 import {Image} from '../models/image';
-import {Network} from '../models/settings';
+import {Network} from '../models/project';
 import {InstancesSectionView} from '../views/instance';
+import {MainAreaView} from '../views/mainArea';
 import {App} from '../app';
 import {Logger} from '../misc/logger';
 
@@ -50,10 +51,12 @@ export class InstancesController extends Marionette.Object {
             activeInstancesGroup, errorInstancesGroup,
             runningInstancesGroup, stoppedInstancesGroup
         ]);
+        let mainAreaView = new MainAreaView();
+        App.instance.
+            mainLayoutView.
+            mainArea.show(mainAreaView);
         let instancesSectionView = new InstancesSectionView(instancesSection);
-        App.instance
-            .mainLayoutView
-            .mainAreaView
+        mainAreaView
             .instances
             .show(instancesSectionView);
     }

@@ -9,6 +9,7 @@ export class Event {
     }
 
     //Generic events
+    static ADD = new Event('add');
     static LIST = new Event('list');
     static RESET = new Event('reset');
     static START = new Event('start');

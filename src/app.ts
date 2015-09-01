@@ -2,7 +2,8 @@ import * as Marionette from 'backbone.marionette';
 import * as Backbone from 'backbone';
 import {MainLayoutView} from './views/mainLayout';
 import {MainController} from './controllers/main';
-import {Event as event} from './misc/events';
+import {Route} from './misc/routes';
+import {Event} from './misc/events';
 import {Logger} from './misc/logger';
 
 let logger = new Logger('app');
@@ -21,7 +22,8 @@ class Router extends Marionette.AppRouter implements Marionette.AppRouterOptions
 
     static getRoutes() {
         let routes = {};
-        routes[event.LIST.name] = 'list';
+        routes[Route.LIST.name] = 'list';
+        routes[Route.ADD.name] = 'add';
         return routes;
     }
 
@@ -43,13 +45,14 @@ export class App extends Marionette.Application {
         App._instance = this;
     }
 
-    go(route, event = route) {
+    static go(route: Route, event: Event = new Event(route.name)) {
         App.navigate(route);
-        this.trigger(event);
+        App.instance.trigger(event.name);
     }
 
     initEventHandlers() {
-        this.on(event.LIST.name, () => mainController.list());
+        this.on(Event.LIST.name, () => mainController.list());
+        this.on(Event.ADD.name, () => mainController.add());
     }
 
     renderMainLayout() {
@@ -79,9 +82,9 @@ export class App extends Marionette.Application {
         return super.trigger(eventName, args);
     }
 
-    static navigate(route: string) {
+    static navigate(route: Route) {
         logger.debug(`Navigating to route ${route}`);
-        Backbone.history.navigate(route);
+        Backbone.history.navigate(route.name);
     }
 
     static startHistory(cb) {

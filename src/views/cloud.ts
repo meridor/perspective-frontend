@@ -1,5 +1,5 @@
 import * as Marionette from 'backbone.marionette';
-import {Settings, Projects, Project} from '../models/settings';
+import {Settings, Projects, Project} from '../models/project';
 import {CheckboxBehavior} from '../behaviors/checkbox';
 import {Logger} from '../misc/logger';
 

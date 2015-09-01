@@ -1,6 +1,8 @@
 import * as Marionette from 'backbone.marionette';
-import {Settings} from '../models/settings';
+import {Settings} from '../models/project';
 import {Logger} from '../misc/logger';
+import {Route as route} from '../misc/routes';
+import {App} from '../app';
 
 let logger = new Logger('view:header');
 
@@ -51,6 +53,7 @@ export class HeaderView extends Marionette.LayoutView<Settings> {
 
     onAddClicked() {
         logger.debug('Add button clicked');
+        App.go(route.ADD);
     }
 
     onDeleteClicked() {

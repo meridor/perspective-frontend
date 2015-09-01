@@ -1,5 +1,5 @@
 import * as Marionette from 'backbone.marionette';
-import {Settings} from '../models/settings';
+import {Settings} from '../models/project';
 import {Logger} from '../misc/logger';
 
 let logger = new Logger('view:panel');

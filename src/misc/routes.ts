@@ -9,4 +9,5 @@ export class Route {
     }
 
     static LIST = new Route('list');
+    static ADD = new Route('add');
 }

@@ -19,7 +19,7 @@ $(() => {
             app.renderMainLayout();
             App.startHistory(() => {
                 if (!App.currentRoute) {
-                    app.go(route.LIST.name);
+                    App.go(route.LIST);
                 }
             });
         });

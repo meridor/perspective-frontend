@@ -1,5 +1,5 @@
 import * as Marionette from 'backbone.marionette';
-import {Settings} from '../models/settings';
+import {Settings} from '../models/project';
 
 export class MainAreaView extends Marionette.LayoutView<Settings> {
 
@@ -10,7 +10,7 @@ export class MainAreaView extends Marionette.LayoutView<Settings> {
         let mainArea = require('../templates/mainArea.hbs');
         super({
             tagName: 'div',
-            className: 'row',
+            className: 'container-fluid',
             template: mainArea()
         });
         this.addRegions({
