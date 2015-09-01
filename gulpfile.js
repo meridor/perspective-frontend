@@ -3,9 +3,10 @@ var gulpif = require('gulp-if');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var webpack = require('webpack');
+var webpackDevServer = require('webpack-dev-server');
 var minifyCss = require('gulp-minify-css');
 var argv = require('yargs').argv;
-var tslint = require('gulp-tslint')
+var tslint = require('gulp-tslint');
 var minifyHTML = require('gulp-minify-html');
 var doNothing = require('gulp-empty');
 
@@ -58,7 +59,7 @@ gulp.task('tslint', function(){
         }));
 });
 
-gulp.task('scripts', ['tslint'], function(cb) {
+var webpackConfig = function(cb, prepareForProduction){
     var plugins = [
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -71,10 +72,11 @@ gulp.task('scripts', ['tslint'], function(cb) {
             minimize: true
         }));
     }
-    webpack({
+    return {
         entry: './src/main.ts',
         output: {
             path: 'dist',
+            publicPath: 'dist/',
             filename: 'app.js'
         },
         resolve: {
@@ -96,7 +98,12 @@ gulp.task('scripts', ['tslint'], function(cb) {
         },
         plugins: plugins,
         devtool: '#source-map'
-    }, function (err, stats) {
+    };
+};
+
+gulp.task('scripts', ['tslint'], function(cb) {
+    var config = webpackConfig(cb, prepareForProduction);
+    webpack(config, function (err, stats) {
         if (err) {
             cb(new $.util.PluginError('webpack', err));
             return;
@@ -123,5 +130,30 @@ gulp.task('build', [
 ]);
 
 gulp.task('test', ['mocha']);
+
+gulp.task('dev', ['clean', 'html', 'styles'], function(cb) {
+    var host = 'localhost';
+    var port = 3000;
+    var config = webpackConfig(cb, false);
+    config.output.path = '/';
+    config.devtool = 'eval';
+    config.debug = true;
+
+    // Start a webpack-dev-server
+    new webpackDevServer(webpack(config), {
+        publicPath: '/' + config.output.publicPath,
+        stats: {
+            colors: true
+        }
+    }).listen(port, host, function(err, stats) {
+            if (err){
+                throw new $.util.PluginError('webpack-dev-server', err);
+            }
+            $.util.log('[dev-server]', 'Listening on ' + host + ':' + port);
+            if (stats) {
+                $.util.log('[dev-server]', stats.toString({}));
+            }
+    });
+});
 
 gulp.task('default', ['build']);

@@ -46,7 +46,9 @@
     "node-libs-browser": "^0.5.2",
     "ntypescript": "^1.201507091536.1",
     "selenium-webdriver": "^2.45.0",
+    "underscore": "^1.8.3",
     "webpack": "^1.9.11",
+    "webpack-dev-server": "^1.10.1",
     "yargs": "^3.15.0"
   },
   "scripts": {
